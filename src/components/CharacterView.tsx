@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
 import { CLASSES, type SkillLevel } from '../data/classes';
 import { SPELLS, type MasteryLevel } from '../data/spells';
-import { TRAINERS } from '../data/trainers';
+import { TRAINERS, type Trainer } from '../data/trainers';
 
 interface CharacterViewProps {
   charIndex: number;
@@ -11,7 +11,7 @@ interface CharacterViewProps {
 
 export const CharacterView = ({ charIndex }: CharacterViewProps) => {
   const { activeProfile, updateCharacter } = useApp();
-  const [trainerModal, setTrainerModal] = useState<{ skill: string; trainers: any[] } | null>(null);
+  const [trainerModal, setTrainerModal] = useState<{ skill: string; trainers: Trainer[] } | null>(null);
 
   if (!activeProfile) return null;
 

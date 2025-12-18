@@ -12,7 +12,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     // Migration logic for old data format
     const parsed = JSON.parse(stored);
-    return parsed.map((p: any) => ({
+    return parsed.map((p: Record<string, unknown> & { stage?: string; alignment?: string }) => ({
       ...p,
       stage: p.stage || (p.alignment === 'Neutral' ? 'Base' : p.alignment || 'Base')
     }));
