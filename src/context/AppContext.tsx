@@ -8,13 +8,19 @@ const STORAGE_KEY = 'mm7_checklist_data';
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [profiles, setProfiles] = useState<Profile[]>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+
+    // Migration logic for old data format
+    const parsed = JSON.parse(stored);
+    return parsed.map((p: any) => ({
+      ...p,
+      stage: p.stage || (p.alignment === 'Neutral' ? 'Base' : p.alignment || 'Base')
+    }));
   });
 
   const [activeProfileId, setActiveProfileId] = useState<string | null>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const parsed = stored ? JSON.parse(stored) : [];
-    return parsed.length > 0 ? parsed[0].id : null;
+    if (profiles.length > 0) return profiles[0].id;
+    return null;
   });
 
   useEffect(() => {
@@ -27,7 +33,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const newProfile: Profile = {
       id: uuidv4(),
       name,
-      alignment: 'Neutral',
+      stage: 'Base',
       party: Array(4).fill(null).map(() => ({
         id: uuidv4(),
         name: '',

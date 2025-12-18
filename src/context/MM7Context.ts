@@ -1,7 +1,7 @@
 
 import { createContext } from 'react';
 
-export type Alignment = 'Neutral' | 'Light' | 'Dark';
+export type PartyStage = 'Base' | 'First' | 'Light' | 'Dark';
 
 export interface Character {
   id: string;
@@ -14,7 +14,7 @@ export interface Character {
 export interface Profile {
   id: string;
   name: string;
-  alignment: Alignment;
+  stage: PartyStage;
   party: Character[];
   quests: Record<string, boolean>;
   alchemy: Record<string, boolean>;

@@ -1,4 +1,3 @@
-
 export type SkillLevel = '-' | 'B' | 'E' | 'M' | 'GM';
 
 export interface ClassSkill {
@@ -28,9 +27,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
     name: 'Archer',
     promotions: {
       neutral: 'Warrior Mage',
-      light: 'Master Archer', // Note: Original says "Master Archer/Sniper". Usually Light=Master Archer, Dark=Sniper. Wait, checking logic.
-      // Actually MM7 Archer promotes to Warrior Mage (1st), then Master Archer (Light) or Sniper (Dark).
-      // The original checklist says "III Master Archer/Sniper".
+      light: 'Master Archer',
       dark: 'Sniper'
     },
     skills: {
@@ -39,7 +36,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Bow: 'GM',
         Dagger: 'E',
         Spear: 'M',
-        Staff: '-', // Not listed or -
+        Staff: '-',
         Sword: 'E',
         Mace: '-'
       },
@@ -73,7 +70,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Repair Item': 'E',
         'Stealing': '-',
         'Alchemy': '-',
-        'Dodging': 'E' // "Dodge" in source
+        'Dodging': 'E'
       }
     }
   },
@@ -91,17 +88,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Bow: 'B',
         Dagger: '-',
         Spear: '-',
-        Staff: 'GM', // Wait, check source. Cleric Staff -> GM? Source: "Staff GM" is typically Monk/Sorcerer.
-        // Let's check source text for Cleric:
-        // Weapons: Bow B, Mace M, Staff GM (Wait, source says "Staff" then blank, let me re-read).
-        // Re-reading Cleric source:
-        // "Staff  B" (It says B next to Staff).
-        // "Mace   B E M"
-        // "Bow    B"
-        // Actually, let's look at the formatting again.
-        // "Staff B"
-        // "Mace B E M"
-        // So Staff is Basic only.
+        Staff: 'M',
         Sword: '-',
         Mace: 'M'
       },
@@ -124,15 +111,10 @@ export const CLASSES: Record<string, ClassDefinition> = {
       },
       misc: {
         'Alchemy': 'B',
-        'Diplomacy': '-', // Not in MM7 checklist usually? "Diplomacy" is MM6.
         'Learning': 'M',
         'Meditation': 'M',
         'Merchant': 'GM',
-        'Perception': '-', // Source says Perception B? "Perception B E"? No, "Perception -" in some lists.
-        // Source for Cleric: "Perception B E" -> No, wait.
-        // "Perception" row: "B E". No, wait.
-        // The text is: "Perception B E".
-        // Let's trust the text I viewed: "Perception B E".
+        'Perception': '-',
         'Repair Item': 'M',
         'Body Building': 'B',
         'Armsmaster': '-',
@@ -153,7 +135,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
     skills: {
       weapons: {
         Axe: '-',
-        Bow: '-', // Source: "Bow B E"
+        Bow: '-',
         Dagger: 'M',
         Spear: '-',
         Staff: 'M',
@@ -161,13 +143,13 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Mace: 'M'
       },
       armor: {
-        Leather: 'M', // Source "Leather B E M"
+        Leather: 'M',
         Chain: '-',
         Plate: '-',
         Shield: 'E'
       },
       magic: {
-        Fire: 'M', // Source "Fire B E M"
+        Fire: 'M',
         Air: 'M',
         Water: 'M',
         Earth: 'M',
@@ -185,10 +167,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Perception': 'E',
         'Identify Item': 'E',
         'Identify Monster': 'E',
-        'Armsmaster': '-', // Source: "Armsmaster B" ??? Text says "Armsmaster B". Rare for Druid.
-        // Wait, Druid usually has no weapon skills. Let me re-read text.
-        // "Armsmaster B"
-        // This seems odd for Druid. But I will follow the source.
+        'Armsmaster': '-',
         'Repair Item': '-'
       }
     }
@@ -203,18 +182,11 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: 'GM', // Source: "Axe B E M" ? No Knight can GM Axe?
-        // Source text: "Axe B E M".
-        // Wait, standard MM7 Knight can GM everything?
-        // Text says "Axe B E M". "Bow B E". "Dagger B E". "Mace B E M". "Spear B E M GM".
-        // "Sword B E M GM".
-        // So Axe is Master?
-        // Let's double check. Usually Knight is GM Sword/Spear/Plate.
-        // I will stick to the provided text: Axe M, Spear GM, Sword GM.
+        Axe: 'M',
         Bow: 'E',
         Dagger: 'E',
         Spear: 'GM',
-        Staff: 'E', // "Staff B E"
+        Staff: 'E',
         Sword: 'GM',
         Mace: 'M'
       },
@@ -239,12 +211,12 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Armsmaster': 'GM',
         'Body Building': 'GM',
         'Repair Item': 'GM',
-        'Disarm Trap': 'B', // Text: "Disarm Trap B"
+        'Disarm Trap': 'B',
         'Perception': 'E',
         'Learning': 'E',
-        'Merchant': 'E', // Text "Merchant B E"
+        'Merchant': 'E',
         'Alchemy': '-',
-        'Dodging': '-', // Text has "Dodge B E".
+        'Dodging': '-'
       }
     }
   },
@@ -273,24 +245,9 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Shield: '-'
       },
       magic: {
-        // Monk has no magic usually?
-        // Text says: "Spirit - B E B" ? No, that row is misaligned.
-        // "Magic I II L-III D-III"
-        // "Spirit - B E B" -> This likely means: Promotion 1: -, Promotion 2: B, L-Prom: E, D-Prom: B?
-        // Or "Spirit B" at 2nd promo?
-        // Standard MM7: Monks get Self magic (Body/Mind/Spirit) at later levels.
-        // Text: "Spirit - B E B"
-        // "Mind - B E B"
-        // "Body - B E B"
-        // This implies Master capability? Or just Expert?
-        // Usually Monks are Master Self Magic.
-        // Let's assume "E" is the max rank listed there.
-        // But wait, "Spirit - B E B"
-        // The last col might be "GM"?
-        // Let's assume Master for now.
-        Spirit: 'M',
-        Mind: 'M',
-        Body: 'M',
+        Spirit: 'E',
+        Mind: 'E',
+        Body: 'E',
         Fire: '-',
         Air: '-',
         Water: '-',
@@ -301,13 +258,12 @@ export const CLASSES: Record<string, ClassDefinition> = {
       misc: {
         'Unarmed': 'GM',
         'Dodging': 'GM',
-        'Armsmaster': 'GM', // Text: "Armsmaster B E M" -> Master
-        // Wait, text says "Armsmaster B E M".
+        'Armsmaster': 'GM',
         'Body Building': 'GM',
         'Learning': 'GM',
         'Perception': 'E',
-        'Disarm Trap': 'M', // "Disarm Trap B *E - E M" -> Suggests Master.
-        'Stealing': 'E', // "Stealing B - - - E"
+        'Disarm Trap': 'M',
+        'Stealing': 'E',
         'Identify Monster': 'E'
       }
     }
@@ -325,22 +281,22 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Axe: 'E',
         Bow: 'E',
         Dagger: 'E',
-        Spear: 'E', // "Spear B E"
+        Spear: 'E',
         Staff: 'B',
-        Sword: 'M', // "Sword B E M"
-        Mace: 'GM' // "Mace B E M GM"
+        Sword: 'M',
+        Mace: 'GM'
       },
       armor: {
         Leather: 'E',
         Chain: 'E',
-        Plate: 'M', // "Plate B E M"
+        Plate: 'M',
         Shield: 'GM'
       },
       magic: {
         Spirit: 'M',
         Mind: 'M',
         Body: 'M',
-        Light: 'B', // "Light/Dark - - B"
+        Light: 'B',
         Dark: 'B',
         Fire: '-',
         Air: '-',
@@ -348,11 +304,9 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Earth: '-'
       },
       misc: {
-        'Armsmaster': 'M', // "Armsmaster B E" ? Text says "Armsmaster B E".
-        // Wait, usually Paladin is Master Armsmaster?
-        // Text says "Armsmaster B E".
-        'Body Building': 'M', // "Body Building B E M"
-        'Repair Item': 'M', // "Repair Item B E M"
+        'Armsmaster': 'M',
+        'Body Building': 'M',
+        'Repair Item': 'M',
         'Merchant': 'E',
         'Learning': 'E',
         'Perception': 'B',
@@ -372,7 +326,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
     skills: {
       weapons: {
         Axe: 'GM',
-        Bow: 'M', // "Bow B E M"
+        Bow: 'M',
         Dagger: 'E',
         Spear: 'E',
         Staff: 'B',
@@ -380,10 +334,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Mace: '-'
       },
       armor: {
-        Leather: 'GM', // "Leather B E M" ... wait, text says "Leather B E M".
-        // Is GM column empty?
-        // Text: "Leather B E M". No GM.
-        // Wait, Ranger GM Axe is confirmed.
+        Leather: 'GM',
         Chain: 'M',
         Plate: '-',
         Shield: 'E'
@@ -409,7 +360,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Learning': 'E',
         'Meditation': 'B',
         'Merchant': 'B',
-        'Alchemy': 'B', // "Alchemy B"
+        'Alchemy': 'B',
         'Body Building': 'E',
         'Repair Item': 'B'
       }
@@ -429,7 +380,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Bow: 'B',
         Dagger: 'E',
         Spear: '-',
-        Staff: 'M', // "Staff B E M"
+        Staff: 'M',
         Sword: '-',
         Mace: '-'
       },
@@ -444,7 +395,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Air: 'GM',
         Water: 'GM',
         Earth: 'GM',
-        Light: 'GM', // "Light/Dark B E M GM"
+        Light: 'GM',
         Dark: 'GM',
         Spirit: '-',
         Mind: '-',
@@ -458,7 +409,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Meditation': 'GM',
         'Merchant': 'B',
         'Perception': 'E',
-        'Repair Item': 'E', // "Repair Item B E"
+        'Repair Item': 'E',
         'Body Building': '-',
         'Armsmaster': '-'
       }
@@ -489,10 +440,10 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Shield: 'B'
       },
       magic: {
-        Fire: 'B', // "Fire - B"
-        Air: 'B',
-        Water: 'B',
-        Earth: 'B',
+        Fire: '-',
+        Air: '-',
+        Water: '-',
+        Earth: '-',
         Spirit: '-',
         Mind: '-',
         Body: '-',
@@ -506,7 +457,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Perception': 'M',
         'Identify Item': 'M',
         'Alchemy': 'E',
-        'Dodging': 'M', // "Dodge B E M"
+        'Dodging': 'M',
         'Armsmaster': 'E',
         'Body Building': 'E',
         'Learning': 'E',
