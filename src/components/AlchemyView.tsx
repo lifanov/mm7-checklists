@@ -8,65 +8,72 @@ export const AlchemyView = () => {
 
   if (!activeProfile) return null;
 
+  const purePotions = ALCHEMY_RECIPES.filter(r => r.isPure);
   const categories = ['Basic', 'Complex', 'Layered', 'White', 'Black'];
 
   return (
     <div>
-      <h2>Alchemy & Stat Enhancements</h2>
-      <p className="hint">Track which character has consumed the permanent black potions (Pure stats).</p>
+      <h2>Alchemy Checklist & Reference</h2>
 
-      <div style={{ overflowX: 'auto' }}>
+      <div className="section" style={{ marginBottom: '2rem' }}>
+        <h3>Permanent Stat Boosts (Pure Potions)</h3>
+        <p className="hint">Each character can only consume one of each Pure potion type permanently.</p>
         <table className="checklist-table">
           <thead>
             <tr>
-              <th>Potion Name</th>
+              <th>Potion</th>
               <th>Recipe</th>
               <th>Effect</th>
               {activeProfile.party.map((char, i) => (
-                <th key={char.id} style={{ textAlign: 'center' }}>{char.name || `Char ${i+1}`}</th>
+                <th key={char.id} style={{ textAlign: 'center', minWidth: '80px' }}>{char.name || `Char ${i+1}`}</th>
               ))}
+            </tr>
+          </thead>
+          <tbody>
+            {purePotions.map(r => (
+              <tr key={r.name}>
+                <td>{r.name}</td>
+                <td>{r.recipe}</td>
+                <td>{r.effect}</td>
+                {activeProfile.party.map((char, i) => {
+                  const key = `alchemy_pure_${i}_${r.name}`;
+                  return (
+                    <td key={char.id} style={{ textAlign: 'center' }}>
+                      <input
+                        type="checkbox"
+                        checked={!!activeProfile.alchemy[key]}
+                        onChange={() => toggleChecklist('alchemy', key)}
+                      />
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="section">
+        <h3>Recipe Reference</h3>
+        <table className="checklist-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Recipe</th>
+              <th>Effect</th>
             </tr>
           </thead>
           <tbody>
             {categories.map(cat => (
               <React.Fragment key={cat}>
                 <tr className="category-header">
-                  <td colSpan={3 + activeProfile.party.length} style={{ background: '#3e3226', fontWeight: 'bold' }}>{cat} Potions</td>
+                  <td colSpan={3} style={{ background: '#3e3226', fontWeight: 'bold', textTransform: 'uppercase' }}>{cat} Potions</td>
                 </tr>
                 {ALCHEMY_RECIPES.filter(r => r.type === cat).map(r => (
                   <tr key={r.name}>
                     <td>{r.name}</td>
                     <td>{r.recipe}</td>
                     <td>{r.effect}</td>
-                    {activeProfile.party.map((char, i) => {
-                      // Only show checkboxes for Black potions (Permanent) usually?
-                      // The user said "keep track of all checklists".
-                      // The original alchemy checklist (chklistalchemy.html) was specifically for "Stat Enhancements" (Black Potion Formulae).
-                      // It had a grid for Name x 4.
-                      // For other potions, it might not be necessary to track "Have I made this?".
-                      // But the user said "track all checklists".
-                      // I will allow tracking for all, but it makes most sense for Black potions.
-                      // Let's just render checkboxes for all.
-                      // Wait, for temporary potions (Haste, etc.) it doesn't make sense to "check it off" permanently.
-                      // Maybe only for Black potions?
-                      // The URL `chklistalchemy.html` title is "Statistics Enhancements".
-                      // It LISTS only Black Potions.
-                      // So I should only show checkboxes for Black Potions.
-                      // The other potions are just reference.
-                      const isBlack = r.type === 'Black';
-                      if (!isBlack) return <td key={char.id} style={{ background: 'rgba(0,0,0,0.1)' }}></td>;
-
-                      const key = `alchemy_${i}_${r.name}`;
-                      return (
-                        <td key={char.id} style={{ textAlign: 'center' }}>
-                          <input
-                            type="checkbox"
-                            checked={!!activeProfile.alchemy[key]}
-                            onChange={() => toggleChecklist('alchemy', key)}
-                          />
-                        </td>
-                      );
-                    })}
                   </tr>
                 ))}
               </React.Fragment>

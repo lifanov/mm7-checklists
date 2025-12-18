@@ -10,10 +10,15 @@ export const QuestView = () => {
   // Group quests by region
   const regions = Array.from(new Set(QUESTS.map(q => q.region)));
 
+  // Helper to determine alignment from stage
+  const currentAlignment =
+    activeProfile.stage === 'Light' ? 'Light' :
+    activeProfile.stage === 'Dark' ? 'Dark' : 'Neutral';
+
   const filteredQuests = QUESTS.filter(q => {
     // Hide quests that don't match alignment if specified
-    if (q.requiredAlign && activeProfile.alignment !== 'Neutral') {
-      if (q.requiredAlign !== activeProfile.alignment) return false;
+    if (q.requiredAlign && currentAlignment !== 'Neutral') {
+      if (q.requiredAlign !== currentAlignment) return false;
     }
     return true;
   });

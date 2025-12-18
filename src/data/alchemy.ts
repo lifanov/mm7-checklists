@@ -1,16 +1,16 @@
-
 export interface AlchemyRecipe {
   name: string;
   recipe: string;
   effect: string;
   type: 'Basic' | 'Complex' | 'Layered' | 'White' | 'Black';
+  isPure?: boolean;
 }
 
 export const ALCHEMY_RECIPES: AlchemyRecipe[] = [
   // Basic
-  { name: 'Cure Wounds', recipe: 'Berry/Herb + Bottle', effect: 'Restore HP', type: 'Basic' },
-  { name: 'Magic Potion', recipe: 'Herb/Root + Bottle', effect: 'Restore SP', type: 'Basic' },
-  { name: 'Cure Weakness', recipe: 'Poppy/Dust + Bottle', effect: 'Cures Weakness', type: 'Basic' },
+  { name: 'Cure Wounds', recipe: 'Red + Bottle', effect: 'Restore HP', type: 'Basic' },
+  { name: 'Magic Potion', recipe: 'Blue + Bottle', effect: 'Restore SP', type: 'Basic' },
+  { name: 'Cure Weakness', recipe: 'Yellow + Bottle', effect: 'Cures Weakness', type: 'Basic' },
 
   // Complex
   { name: 'Cure Disease', recipe: 'Red + Yellow', effect: 'Cures Diseased', type: 'Complex' },
@@ -39,7 +39,7 @@ export const ALCHEMY_RECIPES: AlchemyRecipe[] = [
   { name: 'Speed Boost', recipe: 'Orange + Haste', effect: 'Boost Speed', type: 'White' },
   { name: 'Accuracy Boost', recipe: 'Orange + Stoneskin', effect: 'Boost Accuracy', type: 'White' },
   { name: 'Luck Boost', recipe: 'Heroism + Shield', effect: 'Boost Luck', type: 'White' },
-  { name: 'Flaming Potion', recipe: 'Green + Haste', effect: 'Add Fire damage to weapon', type: 'White' }, // Or Purple + Stoneskin
+  { name: 'Flaming Potion', recipe: 'Green + Haste', effect: 'Add Fire damage to weapon', type: 'White' },
   { name: 'Freezing Potion', recipe: 'Orange + Shield', effect: 'Add Cold damage to weapon', type: 'White' },
   { name: 'Noxious Potion', recipe: 'Orange + Recharge Item', effect: 'Add Poison damage to weapon', type: 'White' },
   { name: 'Shocking Potion', recipe: 'Purple + Haste', effect: 'Add Lightning damage to weapon', type: 'White' },
@@ -56,13 +56,13 @@ export const ALCHEMY_RECIPES: AlchemyRecipe[] = [
   { name: 'Body Resistance', recipe: 'Recharge Item + Stoneskin', effect: 'Boost Body Res', type: 'White' },
 
   // Black (Grandmaster)
-  { name: 'Pure Might', recipe: 'Orange + Might Boost', effect: '+50 Might (Perm)', type: 'Black' },
-  { name: 'Pure Intellect', recipe: 'Orange + Intellect Boost', effect: '+50 Intellect (Perm)', type: 'Black' },
-  { name: 'Pure Personality', recipe: 'Purple + Personality Boost', effect: '+50 Personality (Perm)', type: 'Black' },
-  { name: 'Pure Endurance', recipe: 'Green + Endurance Boost', effect: '+50 Endurance (Perm)', type: 'Black' },
-  { name: 'Pure Speed', recipe: 'Purple + Speed Boost', effect: '+50 Speed (Perm)', type: 'Black' },
-  { name: 'Pure Accuracy', recipe: 'Green + Accuracy Boost', effect: '+50 Accuracy (Perm)', type: 'Black' },
-  { name: 'Pure Luck', recipe: 'Stoneskin + Swift', effect: '+50 Luck (Perm)', type: 'Black' },
+  { name: 'Pure Might', recipe: 'Orange + Might Boost', effect: '+50 Might (Perm)', type: 'Black', isPure: true },
+  { name: 'Pure Intellect', recipe: 'Orange + Intellect Boost', effect: '+50 Intellect (Perm)', type: 'Black', isPure: true },
+  { name: 'Pure Personality', recipe: 'Purple + Personality Boost', effect: '+50 Personality (Perm)', type: 'Black', isPure: true },
+  { name: 'Pure Endurance', recipe: 'Green + Endurance Boost', effect: '+50 Endurance (Perm)', type: 'Black', isPure: true },
+  { name: 'Pure Speed', recipe: 'Purple + Speed Boost', effect: '+50 Speed (Perm)', type: 'Black', isPure: true },
+  { name: 'Pure Accuracy', recipe: 'Green + Accuracy Boost', effect: '+50 Accuracy (Perm)', type: 'Black', isPure: true },
+  { name: 'Pure Luck', recipe: 'Stoneskin + Swift', effect: '+50 Luck (Perm)', type: 'Black', isPure: true },
   { name: 'Stone to Flesh', recipe: 'Heroism + Cure Paralysis', effect: 'Cures Stoned', type: 'Black' },
   { name: 'Slaying Potion', recipe: 'Shield + Flaming', effect: 'Dragon Slaying Weapon', type: 'Black' },
   { name: 'Rejuvenation', recipe: 'Bless + Recharge Item', effect: 'Restore True Age', type: 'Black' }
