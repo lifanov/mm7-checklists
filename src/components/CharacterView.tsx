@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
-import { CLASSES, type SkillLevel } from '../data/classes';
+import { CLASSES, type SkillLevel, type SkillLimits } from '../data/classes';
 import { SPELLS, type MasteryLevel } from '../data/spells';
 import { TRAINERS, type Trainer } from '../data/trainers';
 
@@ -23,6 +23,16 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
   const isLight = stage === 'Light';
   const isDark = stage === 'Dark';
   const isNeutral = stage === 'Base' || stage === 'First';
+
+  const getLimitForStage = (limits: SkillLimits): SkillLevel => {
+    switch (stage) {
+      case 'Base': return limits.base;
+      case 'First': return limits.first;
+      case 'Light': return limits.light;
+      case 'Dark': return limits.dark;
+      default: return limits.base;
+    }
+  };
 
   const toggleSkill = (skillName: string, level: string) => {
     const key = `${skillName}:${level}`;
@@ -49,10 +59,24 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
 
   const showTrainers = (skillName: string) => {
     const trainers = TRAINERS[skillName] || [];
-    setTrainerModal({ skill: skillName, trainers });
+    // Sort trainers: Basic, Expert, Master, Grandmaster
+    const sortedTrainers = [...trainers].sort((a, b) => {
+      const order = { 'Basic': 0, 'Expert': 1, 'Master': 2, 'Grandmaster': 3 };
+      return order[a.level] - order[b.level];
+    });
+    setTrainerModal({ skill: skillName, trainers: sortedTrainers });
   };
 
-  const renderSkillRow = (skill: string, maxLevel: string) => {
+  const renderSkillRow = (skill: string, limits: SkillLimits) => {
+    const maxLevel = getLimitForStage(limits);
+
+    // Even if maxLevel is '-', we might want to show the row if the class *can* learn it at another stage?
+    // But usually we only show what's relevant.
+    // However, for consistency, let's hide it if it's '-' at this stage.
+    // OR, show it as disabled/greyed out?
+    // User wants a checklist. If I can't learn it NOW, I shouldn't check it?
+    // But maybe I want to see what's coming?
+    // For now, let's stick to "If maxLevel is '-', return null" to avoid cluttering with impossible skills.
     if (maxLevel === '-') return null;
 
     const levels = ['B', 'E', 'M', 'GM'];
@@ -97,8 +121,9 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
   // Determine available schools and spells
   const magicSkills = classDef.skills.magic;
   const availableSchools = Object.keys(SPELLS).filter(school => {
-    const level = magicSkills[school as keyof typeof magicSkills];
-    if (!level || level === '-') return false;
+    const limits = magicSkills[school as keyof typeof magicSkills];
+    const maxLevel = getLimitForStage(limits);
+    if (!maxLevel || maxLevel === '-') return false;
 
     if (school === 'Light' && isDark) return false;
     if (school === 'Dark' && isLight) return false;
@@ -130,6 +155,9 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
   return (
     <div>
       <h2>{character.name || `Character ${charIndex + 1}`} - {classDef.name}</h2>
+      <p className="hint" style={{ marginTop: '-1rem', marginBottom: '1rem' }}>
+        Current Stage: {stage} (Max Skills shown)
+      </p>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
         {/* Skills Matrix */}
@@ -147,21 +175,21 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
             </thead>
             <tbody>
               <tr><td colSpan={5} style={{background: '#3e3226', fontWeight: 'bold'}}>Weapons</td></tr>
-              {Object.entries(classDef.skills.weapons).map(([s, l]) => renderSkillRow(s, l))}
+              {Object.entries(classDef.skills.weapons).map(([s, limits]) => renderSkillRow(s, limits))}
 
               <tr><td colSpan={5} style={{background: '#3e3226', fontWeight: 'bold'}}>Armor</td></tr>
-              {Object.entries(classDef.skills.armor).map(([s, l]) => renderSkillRow(s, l))}
+              {Object.entries(classDef.skills.armor).map(([s, limits]) => renderSkillRow(s, limits))}
 
               <tr><td colSpan={5} style={{background: '#3e3226', fontWeight: 'bold'}}>Magic</td></tr>
-              {Object.entries(classDef.skills.magic).map(([s, l]) => {
+              {Object.entries(classDef.skills.magic).map(([s, limits]) => {
                   if ((s === 'Light' || s === 'Dark') && isNeutral) return null;
                   if (s === 'Light' && isDark) return null;
                   if (s === 'Dark' && isLight) return null;
-                  return renderSkillRow(s, l);
+                  return renderSkillRow(s, limits);
               })}
 
               <tr><td colSpan={5} style={{background: '#3e3226', fontWeight: 'bold'}}>Misc</td></tr>
-              {Object.entries(classDef.skills.misc).map(([s, l]) => renderSkillRow(s, l))}
+              {Object.entries(classDef.skills.misc).map(([s, limits]) => renderSkillRow(s, limits))}
             </tbody>
           </table>
         </div>
@@ -172,7 +200,8 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
             <h3>Spell Book</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {availableSchools.map(school => {
-                const maxSkillLevel = magicSkills[school as keyof typeof magicSkills];
+                const limits = magicSkills[school as keyof typeof magicSkills];
+                const maxSkillLevel = getLimitForStage(limits);
                 const maxRank = getMasteryRank(maxSkillLevel);
                 const spells = SPELLS[school as keyof typeof SPELLS];
 
