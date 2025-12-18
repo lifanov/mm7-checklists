@@ -1,0 +1,153 @@
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #2c241b; /* Dark wood/leather tone */
+  color: #f0e6d2; /* Parchment white */
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif; /* Or a Google Font if I add one */
+  color: #ffd700; /* Gold */
+  text-shadow: 2px 2px 4px #000;
+  margin-top: 0;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    flex-direction: row;
+  }
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #1a1510;
+  border-right: 2px solid #5a4a35;
+  padding: 1rem;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+  }
+}
+
+.profile-list {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-item {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+
+.profile-item.active {
+  background-color: #5a4a35;
+  color: #fff;
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #5a4a35;
+  padding-bottom: 0.5rem;
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  background: #3e3226;
+  border: 1px solid #5a4a35;
+  color: #aaa;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+}
+
+.tab.active {
+  background: #5a4a35;
+  color: #ffd700;
+  border-bottom-color: #5a4a35;
+}
+
+/* Form Elements */
+input, select {
+  padding: 0.5rem;
+  background: #f0e6d2;
+  border: 2px solid #5a4a35;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+/* Tables / Checklists */
+.checklist-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.2);
+}
+
+.checklist-table th, .checklist-table td {
+  border: 1px solid #5a4a35;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.checklist-table th {
+  background: #3e3226;
+  color: #ffd700;
+}
+
+.skill-matrix th.rotate {
+  height: 100px;
+  white-space: nowrap;
+}
+.skill-matrix th.rotate > div {
+  transform: translate(0px, 40px) rotate(315deg);
+  width: 30px;
+}
+.skill-matrix td {
+  text-align: center;
+}
+
+/* Checkbox custom style (optional) */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
