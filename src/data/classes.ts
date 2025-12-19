@@ -70,10 +70,6 @@ const createLimits = (maxLight: SkillLevel, maxDark: SkillLevel, baseOverride?: 
     dark: maxDark
   };
 
-  // Correction for mixed maxes (e.g. Light=GM, Dark=M)
-  // The 'resolve' uses the highest max to set base/first expectations, which is usually correct.
-  // But if overrides are provided, use them.
-
   return limits;
 };
 
@@ -124,9 +120,9 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Identify Item': createLimits('-', '-'),
         'Identify Monster': createLimits('-', 'GM'), // Dark gets GM
         'Learning': createLimits('M', 'M'),
-        'Meditation': createLimits('-', 'E'), // Dark gets Expert? Image: Sniper Meditation E. Light: Master Archer Meditation -.
+        'Meditation': createLimits('-', 'E'), // Dark gets Expert
         'Merchant': createLimits('E', 'E'),
-        'Perception': createLimits('GM', 'GM'), // Light GM, Dark GM? Image: M Arch GM, Sniper GM.
+        'Perception': createLimits('GM', 'GM'),
         'Repair Item': createLimits('E', 'E'),
         'Stealing': createLimits('-', '-'),
         'Alchemy': createLimits('-', '-'),
@@ -148,7 +144,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Bow: createLimits('E', 'E'),
         Dagger: createLimits('-', '-'),
         Spear: createLimits('-', '-'),
-        Staff: createLimits('B', 'B'), // Image says N? Wait. Priest Light N, Priest Dark N. Base Cleric starts with Mace.
+        Staff: createLimits('B', 'B'), // Restored: N=Basic
         Sword: createLimits('-', '-'),
         Mace: createLimits('M', 'M'),
         Blaster: createLimits('GM', 'GM')
@@ -171,13 +167,13 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Dark: createLimits('-', 'GM')
       },
       misc: {
-        'Alchemy': createLimits('E', 'E'), // Image: P.Light E, P.Dark E
-        'Learning': createLimits('M', 'M'), // P.Light M, P.Dark M
-        'Meditation': createLimits('M', 'M'), // P.Light M, P.Dark M
-        'Merchant': createLimits('GM', 'GM'), // P.Light GM, P.Dark GM
+        'Alchemy': createLimits('E', 'E'),
+        'Learning': createLimits('M', 'M'),
+        'Meditation': createLimits('M', 'M'),
+        'Merchant': createLimits('GM', 'GM'),
         'Perception': createLimits('E', 'E'),
         'Repair Item': createLimits('M', 'M'),
-        'Body Building': createLimits('B', 'B'), // Image: N
+        'Body Building': createLimits('B', 'B'), // Restored: N=Basic
         'Armsmaster': createLimits('-', '-'),
         'Dodging': createLimits('-', '-'),
         'Identify Item': createLimits('-', '-'),
@@ -201,7 +197,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Bow: createLimits('-', '-'),
         Dagger: createLimits('M', 'M'),
         Spear: createLimits('-', '-'),
-        Staff: createLimits('B', 'B'), // Image says N
+        Staff: createLimits('B', 'B'), // Restored: N=Basic
         Sword: createLimits('-', '-'),
         Mace: createLimits('E', 'E'),
         Blaster: createLimits('GM', 'GM')
@@ -231,7 +227,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Perception': createLimits('E', 'E'),
         'Identify Item': createLimits('E', 'E'),
         'Identify Monster': createLimits('E', 'E'),
-        'Armsmaster': createLimits('B', 'B'), // Image: N
+        'Armsmaster': createLimits('B', 'B'), // Restored: N=Basic
         'Repair Item': createLimits('-', '-'),
         'Body Building': createLimits('-', '-'),
         'Disarm Trap': createLimits('-', '-'),
@@ -280,9 +276,9 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Armsmaster': createLimits('GM', 'GM'),
         'Body Building': createLimits('GM', 'GM'),
         'Repair Item': createLimits('GM', 'GM'),
-        'Disarm Trap': createLimits('B', 'B'), // Image says N
+        'Disarm Trap': createLimits('B', 'B'), // Restored: N=Basic
         'Perception': createLimits('E', 'E'),
-        'Learning': createLimits('B', 'B'), // Image says N
+        'Learning': createLimits('B', 'B'), // Restored: N=Basic
         'Merchant': createLimits('E', 'E'),
         'Alchemy': createLimits('-', '-'),
         'Dodging': createLimits('E', 'E'),
@@ -304,7 +300,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
     skills: {
       weapons: {
         Axe: createLimits('-', '-'),
-        Bow: createLimits('B', 'B'), // Image N
+        Bow: createLimits('B', 'B'), // Restored: N=Basic
         Dagger: createLimits('E', 'E'),
         Spear: createLimits('E', 'E'),
         Staff: createLimits('GM', 'GM'),
@@ -334,10 +330,10 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Dodging': createLimits('GM', 'GM'),
         'Armsmaster': createLimits('M', 'M'),
         'Body Building': createLimits('GM', 'GM'),
-        'Learning': createLimits('GM', 'GM'), // Master GM, Ninja GM? Image: Master GM, Ninja GM. Wait, Zimlab said Ninja Spirit B.
+        'Learning': createLimits('GM', 'GM'),
         'Perception': createLimits('E', 'E'),
-        'Disarm Trap': createLimits('E', 'M'), // Image: Master E, Ninja M
-        'Stealing': createLimits('B', 'E'), // Image: Master N, Ninja E
+        'Disarm Trap': createLimits('E', 'M'),
+        'Stealing': createLimits('B', 'E'),
         'Identify Monster': createLimits('E', 'E'),
         'Identify Item': createLimits('-', '-'),
         'Repair Item': createLimits('-', '-'),
@@ -389,7 +385,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Repair Item': createLimits('GM', 'GM'),
         'Merchant': createLimits('E', 'E'),
         'Learning': createLimits('B', 'B'),
-        'Perception': createLimits('B', 'B'), // Image says N
+        'Perception': createLimits('B', 'B'), // Restored: N=Basic
         'Meditation': createLimits('E', 'E'),
         'Dodging': createLimits('B', 'B'),
         'Disarm Trap': createLimits('-', '-'),
@@ -444,12 +440,12 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Dodging': createLimits('E', 'E'),
         'Disarm Trap': createLimits('E', 'E'),
         'Learning': createLimits('E', 'E'),
-        'Meditation': createLimits('B', 'B'), // Image N
-        'Merchant': createLimits('B', 'B'), // Image N
-        'Alchemy': createLimits('B', 'B'), // Image N
+        'Meditation': createLimits('B', 'B'), // Restored: N=Basic
+        'Merchant': createLimits('B', 'B'), // Restored: N=Basic
+        'Alchemy': createLimits('B', 'B'), // Restored: N=Basic
         'Body Building': createLimits('E', 'E'),
-        'Repair Item': createLimits('B', 'B'), // Image N
-        'Identify Item': createLimits('B', 'B') // Image N
+        'Repair Item': createLimits('B', 'B'), // Restored: N=Basic
+        'Identify Item': createLimits('B', 'B') // Restored: N=Basic
       }
     }
   },
@@ -464,7 +460,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
     skills: {
       weapons: {
         Axe: createLimits('-', '-'),
-        Bow: createLimits('B', 'B'), // Image N
+        Bow: createLimits('B', 'B'), // Restored: N=Basic
         Dagger: createLimits('E', 'E'),
         Spear: createLimits('-', '-'),
         Staff: createLimits('M', 'M'),
@@ -490,12 +486,12 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Body: createLimits('-', '-')
       },
       misc: {
-        'Alchemy': createLimits('M', 'M'), // Image: Archmage M, Lich M
+        'Alchemy': createLimits('M', 'M'),
         'Identify Item': createLimits('GM', 'GM'),
         'Identify Monster': createLimits('GM', 'GM'),
         'Learning': createLimits('M', 'M'),
         'Meditation': createLimits('M', 'M'),
-        'Merchant': createLimits('B', 'B'), // Image N
+        'Merchant': createLimits('B', 'B'), // Restored: N=Basic
         'Perception': createLimits('E', 'E'),
         'Repair Item': createLimits('E', 'E'),
         'Body Building': createLimits('-', '-'),
@@ -529,10 +525,10 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Leather: createLimits('GM', 'GM'),
         Chain: createLimits('E', 'E'),
         Plate: createLimits('-', '-'),
-        Shield: createLimits('B', 'B') // Image Spy N, Assassin N
+        Shield: createLimits('B', 'B') // Restored: N=Basic
       },
       magic: {
-        Fire: createLimits('-', 'B'), // Dark Assassin N
+        Fire: createLimits('-', 'B'),
         Air: createLimits('-', 'B'),
         Water: createLimits('-', 'B'),
         Earth: createLimits('-', 'B'),
@@ -550,10 +546,10 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Identify Item': createLimits('M', 'M'),
         'Alchemy': createLimits('E', 'E'),
         'Dodging': createLimits('M', 'M'),
-        'Armsmaster': createLimits('M', 'M'), // Image M
+        'Armsmaster': createLimits('M', 'M'),
         'Body Building': createLimits('E', 'E'),
         'Learning': createLimits('E', 'E'),
-        'Repair Item': createLimits('B', 'B'), // Image Spy N, Assassin N
+        'Repair Item': createLimits('B', 'B'), // Restored: N=Basic
         'Identify Monster': createLimits('-', '-')
       }
     }
