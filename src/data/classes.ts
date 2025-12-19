@@ -64,8 +64,8 @@ const createLimits = (maxLight: SkillLevel, maxDark: SkillLevel, baseOverride?: 
   };
 
   const limits: SkillLimits = {
-    base: baseOverride || resolve(maxLight === 'GM' || maxDark === 'GM' ? 'GM' : (maxLight === 'M' || maxDark === 'M' ? 'M' : (maxLight === 'E' || maxDark === 'E' ? 'E' : 'B')), 0),
-    first: firstOverride || resolve(maxLight === 'GM' || maxDark === 'GM' ? 'GM' : (maxLight === 'M' || maxDark === 'M' ? 'M' : (maxLight === 'E' || maxDark === 'E' ? 'E' : 'B')), 1),
+    base: baseOverride || resolve(maxLight === 'GM' || maxDark === 'GM' ? 'GM' : (maxLight === 'M' || maxDark === 'M' ? 'M' : (maxLight === 'E' || maxDark === 'E' ? 'E' : (maxLight === 'B' || maxDark === 'B' ? 'B' : '-'))), 0),
+    first: firstOverride || resolve(maxLight === 'GM' || maxDark === 'GM' ? 'GM' : (maxLight === 'M' || maxDark === 'M' ? 'M' : (maxLight === 'E' || maxDark === 'E' ? 'E' : (maxLight === 'B' || maxDark === 'B' ? 'B' : '-'))), 1),
     light: maxLight,
     dark: maxDark
   };
@@ -94,7 +94,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Staff: createLimits('B', 'B'),
         Sword: createLimits('E', 'E'),
         Mace: createLimits('-', '-'),
-        Blaster: createLimits('GM', 'GM') // Everyone gets Blaster GM
+        Blaster: createLimits('GM', 'GM') // Everyone gets Blaster GM typically
       },
       armor: {
         Leather: createLimits('M', 'M'),
@@ -103,10 +103,10 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Shield: createLimits('-', '-')
       },
       magic: {
-        Fire: createLimits('M', 'M'),
-        Air: createLimits('M', 'M'),
-        Water: createLimits('M', 'M'),
-        Earth: createLimits('M', 'M'),
+        Fire: createLimits('M', 'M', 'E', 'E'),
+        Air: createLimits('M', 'M', 'E', 'E'),
+        Water: createLimits('M', 'M', 'E', 'E'),
+        Earth: createLimits('M', 'M', 'E', 'E'),
         Spirit: createLimits('-', '-'),
         Mind: createLimits('-', '-'),
         Body: createLimits('-', '-'),
@@ -170,7 +170,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Alchemy': createLimits('E', 'E'),
         'Learning': createLimits('M', 'M'),
         'Meditation': createLimits('M', 'M'),
-        'Merchant': createLimits('GM', 'GM'),
+        'Merchant': createLimits('M', 'GM'), // Base E, First M, Light M, Dark GM
         'Perception': createLimits('E', 'E'),
         'Repair Item': createLimits('M', 'M'),
         'Body Building': createLimits('B', 'B'),
@@ -303,7 +303,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Bow: createLimits('B', 'B'),
         Dagger: createLimits('E', 'E'),
         Spear: createLimits('E', 'E'),
-        Staff: createLimits('GM', 'GM'),
+        Staff: createLimits('GM', 'M'), // Light GM, Dark Master
         Sword: createLimits('E', 'E'),
         Mace: createLimits('-', '-'),
         Blaster: createLimits('GM', 'GM')
@@ -326,14 +326,14 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Dark: createLimits('-', '-')
       },
       misc: {
-        'Unarmed': createLimits('GM', 'GM'),
-        'Dodging': createLimits('GM', 'GM'),
+        'Unarmed': createLimits('GM', 'M'), // Light GM, Dark Master
+        'Dodging': createLimits('GM', 'M'), // Light GM, Dark Master
         'Armsmaster': createLimits('M', 'M'),
         'Body Building': createLimits('GM', 'GM'),
         'Learning': createLimits('GM', 'GM'),
         'Perception': createLimits('E', 'E'),
-        'Disarm Trap': createLimits('E', 'M'),
-        'Stealing': createLimits('B', 'E'),
+        'Disarm Trap': createLimits('E', 'M', 'B', 'E'), // Base B, First E, Light E, Dark M
+        'Stealing': createLimits('B', 'E', 'B', 'B'), // Base B, First B, Light B, Dark E
         'Identify Monster': createLimits('E', 'E'),
         'Identify Item': createLimits('-', '-'),
         'Repair Item': createLimits('-', '-'),
@@ -369,9 +369,9 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Shield: createLimits('GM', 'GM')
       },
       magic: {
-        Spirit: createLimits('M', 'M'),
-        Mind: createLimits('M', 'M'),
-        Body: createLimits('M', 'M'),
+        Spirit: createLimits('M', 'M', 'E', 'E'), // Base E, First E, Light/Dark M
+        Mind: createLimits('M', 'M', 'E', 'E'),
+        Body: createLimits('M', 'M', 'E', 'E'),
         Light: createLimits('B', '-', '-', '-'), // Delayed to Tier 3 (Hero)
         Dark: createLimits('-', 'B', '-', '-'), // Delayed to Tier 3 (Villain)
         Fire: createLimits('-', '-'),
@@ -422,14 +422,14 @@ export const CLASSES: Record<string, ClassDefinition> = {
         Shield: createLimits('E', 'E')
       },
       magic: {
-        // Delayed: Tier 1 -, Tier 2 Basic, Tier 3 Expert
-        Fire: createLimits('E', 'E', '-', 'B'),
-        Air: createLimits('E', 'E', '-', 'B'),
-        Water: createLimits('E', 'E', '-', 'B'),
-        Earth: createLimits('E', 'E', '-', 'B'),
-        Spirit: createLimits('E', 'E', '-', 'B'),
-        Mind: createLimits('E', 'E', '-', 'B'),
-        Body: createLimits('E', 'E', '-', 'B'),
+        // Base B, First B, Light E, Dark E
+        Fire: createLimits('E', 'E', 'B', 'B'),
+        Air: createLimits('E', 'E', 'B', 'B'),
+        Water: createLimits('E', 'E', 'B', 'B'),
+        Earth: createLimits('E', 'E', 'B', 'B'),
+        Spirit: createLimits('E', 'E', 'B', 'B'),
+        Mind: createLimits('E', 'E', 'B', 'B'),
+        Body: createLimits('E', 'E', 'B', 'B'),
         Light: createLimits('-', '-'),
         Dark: createLimits('-', '-')
       },
