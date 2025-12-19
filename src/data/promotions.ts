@@ -73,7 +73,7 @@ export const PROMOTIONS: Record<string, ClassPromotions> = {
       title: 'Warlock',
       npc: 'Tor Anwyn',
       location: 'Anwyn\'s House',
-      region: 'Nighon' // Source said Nighon, Tor Anwyn.
+      region: 'Nighon'
     }
   },
   knight: {
@@ -114,7 +114,7 @@ export const PROMOTIONS: Record<string, ClassPromotions> = {
     dark: {
       title: 'Ninja',
       npc: 'Stephen Sand',
-      location: 'Sand\'s House', // Usually in The Pit? Source says "Stephen Sand - The Pit"
+      location: 'Sand\'s House',
       region: 'The Pit'
     }
   },
@@ -124,7 +124,7 @@ export const PROMOTIONS: Record<string, ClassPromotions> = {
       title: 'Crusader',
       npc: 'Sir Charles Quixote',
       location: 'Quixote\'s House',
-      region: 'Erathia' // Actually he is in Crusader's house in Erathia? Source says "Sir Charles Quixote - Erathia"
+      region: 'Erathia'
     },
     light: {
       title: 'Hero',

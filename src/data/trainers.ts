@@ -11,8 +11,8 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Adept Guild of Air', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
     { name: 'Paramount Guild of Air', location: 'Celeste', region: 'Celeste', level: 'Basic' },
     { name: 'Master Guild of Air', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
-    { name: 'Kyra Stormeye', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Sethrik Windsong', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Kyra Stormeye', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
+    { name: 'Sethrik Windsong', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Rislyn Greenstorm', location: 'Avlee', region: 'Avlee', level: 'Master' },
     { name: 'Gayle', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Grandmaster' }
   ],
@@ -28,7 +28,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Infernal Temptations', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'The Bubbling Cauldron', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Bryce Watershed', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Expert' },
-    { name: 'Edgar Willowbark', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Edgar Willowbark', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Elzbet Winterspoon', location: 'Mount Nighon', region: 'Nighon', level: 'Master' },
     { name: 'Lucid Apple', location: 'Avlee', region: 'Avlee', level: 'Grandmaster' }
   ],
@@ -44,7 +44,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Perdition\'s Flame', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'The Proving Grounds', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Edgar Botham', location: 'Deyja Moors', region: 'Deyja', level: 'Expert' },
-    { name: 'Trent Steele', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
+    { name: 'Trent Steele', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
     { name: 'Paula Brightspear', location: 'Avlee', region: 'Avlee', level: 'Master' },
     { name: 'Lasiter', location: 'Land of the Giants', region: 'Land of the Giants', level: 'Grandmaster' }
   ],
@@ -88,9 +88,9 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Initiate Guild of Body', location: 'Emerald Island', region: 'Emerald Island', level: 'Basic' },
     { name: 'Master Guild of Body', location: 'Erathia', region: 'Erathia', level: 'Basic' },
     { name: 'Adept Guild of Body', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
-    { name: 'Tristen Hearthsworn', location: 'Erathia', region: 'Erathia', level: 'Expert' },
+    { name: 'Tristen Hearthsworn', location: 'Steadwick', region: 'Erathia', level: 'Expert' },
     { name: 'Straton Hillsman', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
-    { name: 'Brother Bombah', location: 'Tatalia', region: 'Tatalia', level: 'Master' },
+    { name: 'Brother Bombah', location: 'Tidewater', region: 'Tatalia', level: 'Master' },
     { name: 'Tempus', location: 'Avlee', region: 'Avlee', level: 'Grandmaster' }
   ],
   'Bow': [
@@ -101,7 +101,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Blades of Spite', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'Hunter\'s Lodge', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Wil Rudyman', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Expert' },
-    { name: 'Jaycin Suretrail', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Jaycin Suretrail', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Lanshee Ravensight', location: 'Mount Nighon', region: 'Nighon', level: 'Master' },
     { name: 'Cardric the Steady', location: 'Harmondale', region: 'Harmondale', level: 'Grandmaster' }
   ],
@@ -116,8 +116,8 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Alloyed Armor and Shields', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Shields of Malice', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'Buckskins and Bucklers', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
-    { name: 'Tricia Steelcoif', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Gilad Bith', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Tricia Steelcoif', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
+    { name: 'Gilad Bith', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Medwari Dragontracker', location: 'Avlee', region: 'Avlee', level: 'Master' },
     { name: 'Halian Nevermore', location: 'Deyja Moors', region: 'Deyja', level: 'Grandmaster' }
   ],
@@ -130,10 +130,10 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Alloyed Weapons', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Blades of Spite', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'Smiling Jack', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Expert' },
-    { name: 'Mortie Ottin', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Mortie Ottin', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Aznog Slasher', location: 'Mount Nighon', region: 'Nighon', level: 'Master' },
     { name: 'William Lasker', location: 'Erathian Sewer', region: 'Erathia', level: 'Grandmaster' },
-    { name: 'Tonken Fist', location: 'Tatalia', region: 'Tatalia', level: 'Grandmaster' }
+    { name: 'Tonken Fist', location: 'Tidewater', region: 'Tatalia', level: 'Grandmaster' }
   ],
   'Dark': [
     { name: 'Guild of Twilight', location: 'Deyja Moors', region: 'Deyja', level: 'Basic' },
@@ -158,8 +158,8 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'The Vampyre Lounge', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'Emerald Inn', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'William Lasker', location: 'Erathian Sewer', region: 'Erathia', level: 'Expert' },
-    { name: 'Taren the Lifter', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Gretchin Fiddlebone', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Taren the Lifter', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
+    { name: 'Gretchin Fiddlebone', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Lenord Skinner', location: 'Harmondale', region: 'Harmondale', level: 'Master' },
     { name: 'Silk Quicktongue', location: 'Mount Nighon', region: 'Nighon', level: 'Grandmaster' }
   ],
@@ -180,7 +180,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Spyder', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Expert' },
     { name: 'Sheldon Mist', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Oberic Crane', location: 'Evenmorn Island', region: 'Evenmorn', level: 'Master' },
-    { name: 'Kenneth Wain', location: 'Erathia', region: 'Erathia', level: 'Grandmaster' }
+    { name: 'Kenneth Wain', location: 'Steadwick', region: 'Erathia', level: 'Grandmaster' }
   ],
   'Earth': [
     { name: 'Initiate Guild of Earth', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
@@ -189,7 +189,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Adept Guild of Earth', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Johanson Kern', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Jasper Welman', location: 'Stone City', region: 'Stone City', level: 'Expert' },
-    { name: 'Lara Stonewright', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Master' },
+    { name: 'Lara Stonewright', location: 'Pierpont', region: 'Tularean Forest', level: 'Master' },
     { name: 'Avalanche', location: 'Deyja Moors', region: 'Deyja', level: 'Grandmaster' }
   ],
   'Fire': [
@@ -197,10 +197,10 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Adept Guild of Fire', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
     { name: 'Paramount Guild of Fire', location: 'Mount Nighon', region: 'Nighon', level: 'Basic' },
     { name: 'Master Guild of Fire', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
-    { name: 'Lisha Redding', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Kindle Treasurestone', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Lisha Redding', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
+    { name: 'Kindle Treasurestone', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Ashen Temper', location: 'Harmondale', region: 'Harmondale', level: 'Master' },
-    { name: 'Blayze', location: 'Erathia', region: 'Erathia', level: 'Grandmaster' }
+    { name: 'Blayze', location: 'Steadwick', region: 'Erathia', level: 'Grandmaster' }
   ],
   'Identify Item': [
     { name: 'Artifacts & Antiques', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Basic' },
@@ -216,7 +216,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Fenton Krewlen', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Hollis the True', location: 'Mount Nighon', region: 'Nighon', level: 'Expert' },
     { name: 'Samuel Benson', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Master' },
-    { name: 'Payge Blueswan', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Grandmaster' }
+    { name: 'Payge Blueswan', location: 'Pierpont', region: 'Tularean Forest', level: 'Grandmaster' }
   ],
   'Identify Monster': [
     { name: 'Edmond\'s Ampules', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Basic' },
@@ -230,7 +230,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Infernal Temptations', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'The Bubbling Cauldron', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Christie Nosewort', location: 'Mount Nighon', region: 'Nighon', level: 'Expert' },
-    { name: 'Alton Black', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Alton Black', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Jeni Swiftfoot', location: 'Avlee', region: 'Avlee', level: 'Master' },
     { name: 'Raven the Hunter', location: 'Harmondale', region: 'Harmondale', level: 'Grandmaster' }
   ],
@@ -272,7 +272,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Mikel Deerhunter', location: 'Avlee', region: 'Avlee', level: 'Expert' },
     { name: 'Douglas Iverson', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Rabisa Nedlon', location: 'Mount Nighon', region: 'Nighon', level: 'Master' },
-    { name: 'Miyon the Quick', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Grandmaster' }
+    { name: 'Miyon the Quick', location: 'Pierpont', region: 'Tularean Forest', level: 'Grandmaster' }
   ],
   'Light': [
     { name: 'Guild of Illumination', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Basic' },
@@ -284,9 +284,9 @@ export const TRAINERS: Record<string, Trainer[]> = {
   'Mace': [
     { name: 'Tempered Steel', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
     { name: 'The Balanced Axe', location: 'Stone City', region: 'Stone City', level: 'Basic' },
-    { name: 'Norbert Havest', location: 'Erathia', region: 'Erathia', level: 'Expert' },
+    { name: 'Norbert Havest', location: 'Steadwick', region: 'Erathia', level: 'Expert' },
     { name: 'Aldrin Tamloc', location: 'Stone City', region: 'Stone City', level: 'Expert' },
-    { name: 'Brother Rothham', location: 'Tatalia', region: 'Tatalia', level: 'Master' },
+    { name: 'Brother Rothham', location: 'Tidewater', region: 'Tatalia', level: 'Master' },
     { name: 'Patwin Fellbern', location: 'Deyja Moors', region: 'Deyja', level: 'Grandmaster' }
   ],
   'Meditation': [
@@ -322,7 +322,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Temple of Dark', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'Nature\'s Remedies', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Jobber Thain', location: 'Stone City', region: 'Stone City', level: 'Expert' },
-    { name: 'Matric Weatherson', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Matric Weatherson', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Bethold Caverhill', location: 'Evenmorn Island', region: 'Evenmorn', level: 'Master' },
     { name: 'Brigham the Frugal', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Grandmaster' }
   ],
@@ -331,10 +331,10 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Adept Guild of Mind', location: 'Erathia', region: 'Erathia', level: 'Basic' },
     { name: 'Initiate Guild of Mind', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
     { name: 'Master Guild of Mind', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
-    { name: 'Julian the Delver', location: 'Erathia', region: 'Erathia', level: 'Expert' },
+    { name: 'Julian the Delver', location: 'Steadwick', region: 'Erathia', level: 'Expert' },
     { name: 'Helga Whitesky', location: 'Mount Nighon', region: 'Nighon', level: 'Expert' },
     { name: 'Myles Featherwind', location: 'Avlee', region: 'Avlee', level: 'Master' },
-    { name: 'Xavier Bremen', location: 'Tatalia', region: 'Tatalia', level: 'Grandmaster' }
+    { name: 'Xavier Bremen', location: 'Tidewater', region: 'Tatalia', level: 'Grandmaster' }
   ],
   'Perception': [
     { name: 'The Potted Pixie', location: 'Avlee', region: 'Avlee', level: 'Basic' },
@@ -353,7 +353,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Emerald Inn', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Kethiric Otterton', location: 'Avlee', region: 'Avlee', level: 'Expert' },
     { name: 'Gregory Weider', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
-    { name: 'Garret Dotes', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Master' },
+    { name: 'Garret Dotes', location: 'Pierpont', region: 'Tularean Forest', level: 'Master' },
     { name: 'Petra Cleareye', location: 'Deyja Moors', region: 'Deyja', level: 'Grandmaster' }
   ],
   'Plate': [
@@ -365,7 +365,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Shields of Malice', location: 'The Pit', region: 'The Pit', level: 'Basic' },
     { name: 'Critias Burnkindle', location: 'Stone City', region: 'Stone City', level: 'Expert' },
     { name: 'Weldrik Lotts', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Dekian Forgewright', location: 'Erathia', region: 'Erathia', level: 'Master' },
+    { name: 'Dekian Forgewright', location: 'Steadwick', region: 'Erathia', level: 'Master' },
     { name: 'Brand the Maker', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Grandmaster' }
   ],
   'Repair Item': [
@@ -381,8 +381,8 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Natural Magic', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Shane Thomas', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Balan Gizmo', location: 'Stone City', region: 'Stone City', level: 'Expert' },
-    { name: 'Thomas Moore', location: 'Tatalia', region: 'Tatalia', level: 'Master' },
-    { name: 'Gareth the Fixer', location: 'Erathia', region: 'Erathia', level: 'Grandmaster' }
+    { name: 'Thomas Moore', location: 'Tidewater', region: 'Tatalia', level: 'Master' },
+    { name: 'Gareth the Fixer', location: 'Steadwick', region: 'Erathia', level: 'Grandmaster' }
   ],
   'Shield': [
     { name: 'Armor of Honor', location: 'Celeste', region: 'Celeste', level: 'Basic' },
@@ -392,7 +392,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'The Missing Link', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Alloyed Armor and Shields', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Shields of Malice', location: 'The Pit', region: 'The Pit', level: 'Basic' },
-    { name: 'Randal Wolverton', location: 'Erathia', region: 'Erathia', level: 'Expert' },
+    { name: 'Randal Wolverton', location: 'Steadwick', region: 'Erathia', level: 'Expert' },
     { name: 'Isram Gallowswell', location: 'Tatalia', region: 'Tatalia', level: 'Master' },
     { name: 'Fedwin Smithson', location: 'Evenmorn Island', region: 'Evenmorn', level: 'Grandmaster' }
   ],
@@ -401,8 +401,8 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Alloyed Weapons', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Hunter\'s Lodge', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Cassandra Holden', location: 'Avlee', region: 'Avlee', level: 'Expert' },
-    { name: 'Kerin Greydawn', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Claderin Silverpoint', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Master' },
+    { name: 'Kerin Greydawn', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
+    { name: 'Claderin Silverpoint', location: 'Pierpont', region: 'Tularean Forest', level: 'Master' },
     { name: 'Seline Falconeye', location: 'Stone City', region: 'Stone City', level: 'Grandmaster' }
   ],
   'Spirit': [
@@ -411,9 +411,9 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Paramount Guild of Spirit', location: 'Erathia', region: 'Erathia', level: 'Basic' },
     { name: 'Adept Guild of Spirit', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
     { name: 'Bertram Stillwater', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
-    { name: 'Solomon Riverstone', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
-    { name: 'Heather Dreamwright', location: 'Erathia', region: 'Erathia', level: 'Master' },
-    { name: 'Benjamin the Balanced', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Grandmaster' }
+    { name: 'Solomon Riverstone', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
+    { name: 'Heather Dreamwright', location: 'Steadwick', region: 'Erathia', level: 'Master' },
+    { name: 'Benjamin the Balanced', location: 'Pierpont', region: 'Tularean Forest', level: 'Grandmaster' }
   ],
   'Staff': [
     { name: 'The Hallowed Sword', location: 'Celeste', region: 'Celeste', level: 'Basic' },
@@ -444,7 +444,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Peryn Lightfingers', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Elmo the Pincher', location: 'Mount Nighon', region: 'Nighon', level: 'Expert' },
     { name: 'Leane Shadowrunner', location: 'Deyja Moors', region: 'Deyja', level: 'Master' },
-    { name: 'Everil Nightwalker', location: 'Tatalia', region: 'Tatalia', level: 'Grandmaster' }
+    { name: 'Everil Nightwalker', location: 'Tidewater', region: 'Tatalia', level: 'Grandmaster' }
   ],
   'Sword': [
     { name: 'Swords Incorporated', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
@@ -455,8 +455,8 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Vander\'s Blades & Bows', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Alloyed Weapons', location: 'Tatalia', region: 'Tatalia', level: 'Basic' },
     { name: 'Blades of Spite', location: 'The Pit', region: 'The Pit', level: 'Basic' },
-    { name: 'Payge Rivenhill', location: 'Erathia', region: 'Erathia', level: 'Expert' },
-    { name: 'Flynn Arin', location: 'Tatalia', region: 'Tatalia', level: 'Expert' },
+    { name: 'Payge Rivenhill', location: 'Steadwick', region: 'Erathia', level: 'Expert' },
+    { name: 'Flynn Arin', location: 'Tidewater', region: 'Tatalia', level: 'Expert' },
     { name: 'Tugor Slicer', location: 'Deyja Moors', region: 'Deyja', level: 'Master' },
     { name: 'Chadric Townsaver', location: 'Harmondale', region: 'Harmondale', level: 'Grandmaster' }
   ],
@@ -477,7 +477,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Puddle Stone', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Expert' },
     { name: 'Kira Steeleye', location: 'Harmondale', region: 'Harmondale', level: 'Expert' },
     { name: 'Ulbrecht the Brawler', location: 'Evenmorn Island', region: 'Evenmorn', level: 'Master' },
-    { name: 'Norris', location: 'Erathia', region: 'Erathia', level: 'Grandmaster' }
+    { name: 'Norris', location: 'Steadwick', region: 'Erathia', level: 'Grandmaster' }
   ],
   'Water': [
     { name: 'Master Guild of Water', location: 'Bracada Desert', region: 'Bracada Desert', level: 'Basic' },
@@ -485,7 +485,7 @@ export const TRAINERS: Record<string, Trainer[]> = {
     { name: 'Initiate Guild of Water', location: 'Harmondale', region: 'Harmondale', level: 'Basic' },
     { name: 'Adept Guild of Water', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Basic' },
     { name: 'Karla Ravenhair', location: 'Avlee', region: 'Avlee', level: 'Expert' },
-    { name: 'Herald Whitecap', location: 'Tularean Forest', region: 'Tularean Forest', level: 'Expert' },
+    { name: 'Herald Whitecap', location: 'Pierpont', region: 'Tularean Forest', level: 'Expert' },
     { name: 'Tobren Rainshield', location: 'Mount Nighon', region: 'Nighon', level: 'Master' },
     { name: 'Torrent', location: 'Harmondale', region: 'Harmondale', level: 'Grandmaster' }
   ]
