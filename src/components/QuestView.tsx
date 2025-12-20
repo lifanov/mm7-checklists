@@ -11,9 +11,8 @@ export const QuestView = () => {
   const regions = Array.from(new Set(QUESTS.map(q => q.region)));
 
   // Helper to determine alignment from stage
-  const currentAlignment =
-    activeProfile.stage === 'Light' ? 'Light' :
-    activeProfile.stage === 'Dark' ? 'Dark' : 'Neutral';
+  // Logic updated for new path system: Neutral, Light, Dark
+  const currentAlignment = activeProfile.path;
 
   const filteredQuests = QUESTS.filter(q => {
     // Hide quests that don't match alignment if specified

@@ -1,12 +1,14 @@
 
 import { createContext } from 'react';
 
-export type PartyStage = 'Base' | 'First' | 'Light' | 'Dark';
+export type Path = 'Neutral' | 'Light' | 'Dark';
+export type PromotionType = 'base' | 'first' | 'light' | 'dark';
 
 export interface Character {
   id: string;
   name: string;
   classId: string;
+  promotion: PromotionType;
   skills: Record<string, boolean>;
   spells: Record<string, boolean>;
 }
@@ -14,7 +16,7 @@ export interface Character {
 export interface Profile {
   id: string;
   name: string;
-  stage: PartyStage;
+  path: Path;
   party: Character[];
   quests: Record<string, boolean>;
   alchemy: Record<string, boolean>;

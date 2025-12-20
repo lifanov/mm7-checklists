@@ -2,8 +2,10 @@
 import { useState } from 'react';
 import { useApp } from '../hooks/useApp';
 import { CLASSES, type SkillLevel, type SkillLimits } from '../data/classes';
+import { PROMOTIONS } from '../data/promotions';
 import { SPELLS, type MasteryLevel } from '../data/spells';
 import { TRAINERS, type Trainer } from '../data/trainers';
+import type { PromotionType } from '../context/MM7Context';
 
 interface CharacterViewProps {
   charIndex: number;
@@ -17,20 +19,28 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
 
   const character = activeProfile.party[charIndex];
   const classDef = CLASSES[character.classId];
-  const stage = activeProfile.stage;
+  const currentPromotion = character.promotion;
 
-  // Determine current alignment path for logic (Base/First -> Neutral, Light -> Light, Dark -> Dark)
-  const isLight = stage === 'Light';
-  const isDark = stage === 'Dark';
-  const isNeutral = stage === 'Base' || stage === 'First';
-
-  const getLimitForStage = (limits: SkillLimits): SkillLevel => {
-    switch (stage) {
-      case 'Base': return limits.base;
-      case 'First': return limits.first;
-      case 'Light': return limits.light;
-      case 'Dark': return limits.dark;
+  const getLimitForPromotion = (limits: SkillLimits): SkillLevel => {
+    switch (currentPromotion) {
+      case 'base': return limits.base;
+      case 'first': return limits.first;
+      case 'light': return limits.light;
+      case 'dark': return limits.dark;
       default: return limits.base;
+    }
+  };
+
+  // Helper to get display title for current rank
+  const getPromotionTitle = (classId: string, promo: PromotionType) => {
+    const p = PROMOTIONS[classId];
+    if (!p) return 'Unknown';
+    switch (promo) {
+        case 'base': return p.base;
+        case 'first': return p.first.title;
+        case 'light': return p.light.title;
+        case 'dark': return p.dark.title;
+        default: return p.base;
     }
   };
 
@@ -68,15 +78,8 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
   };
 
   const renderSkillRow = (skill: string, limits: SkillLimits) => {
-    const maxLevel = getLimitForStage(limits);
+    const maxLevel = getLimitForPromotion(limits);
 
-    // Even if maxLevel is '-', we might want to show the row if the class *can* learn it at another stage?
-    // But usually we only show what's relevant.
-    // However, for consistency, let's hide it if it's '-' at this stage.
-    // OR, show it as disabled/greyed out?
-    // User wants a checklist. If I can't learn it NOW, I shouldn't check it?
-    // But maybe I want to see what's coming?
-    // For now, let's stick to "If maxLevel is '-', return null" to avoid cluttering with impossible skills.
     if (maxLevel === '-') return null;
 
     const levels = ['B', 'E', 'M', 'GM'];
@@ -122,12 +125,8 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
   const magicSkills = classDef.skills.magic;
   const availableSchools = Object.keys(SPELLS).filter(school => {
     const limits = magicSkills[school as keyof typeof magicSkills];
-    const maxLevel = getLimitForStage(limits);
+    const maxLevel = getLimitForPromotion(limits);
     if (!maxLevel || maxLevel === '-') return false;
-
-    if (school === 'Light' && isDark) return false;
-    if (school === 'Dark' && isLight) return false;
-    if ((school === 'Light' || school === 'Dark') && isNeutral) return false;
 
     return true;
   });
@@ -156,7 +155,7 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
     <div>
       <h2>{character.name || `Character ${charIndex + 1}`} - {classDef.name}</h2>
       <p className="hint" style={{ marginTop: '-1rem', marginBottom: '1rem' }}>
-        Current Stage: {stage} (Max Skills shown)
+        Current Rank: {getPromotionTitle(character.classId, currentPromotion)}
       </p>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
@@ -181,12 +180,7 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
               {Object.entries(classDef.skills.armor).map(([s, limits]) => renderSkillRow(s, limits))}
 
               <tr><td colSpan={5} style={{background: '#3e3226', fontWeight: 'bold'}}>Magic</td></tr>
-              {Object.entries(classDef.skills.magic).map(([s, limits]) => {
-                  if ((s === 'Light' || s === 'Dark') && isNeutral) return null;
-                  if (s === 'Light' && isDark) return null;
-                  if (s === 'Dark' && isLight) return null;
-                  return renderSkillRow(s, limits);
-              })}
+              {Object.entries(classDef.skills.magic).map(([s, limits]) => renderSkillRow(s, limits))}
 
               <tr><td colSpan={5} style={{background: '#3e3226', fontWeight: 'bold'}}>Misc</td></tr>
               {Object.entries(classDef.skills.misc).map(([s, limits]) => renderSkillRow(s, limits))}
@@ -201,7 +195,7 @@ export const CharacterView = ({ charIndex }: CharacterViewProps) => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {availableSchools.map(school => {
                 const limits = magicSkills[school as keyof typeof magicSkills];
-                const maxSkillLevel = getLimitForStage(limits);
+                const maxSkillLevel = getLimitForPromotion(limits);
                 const maxRank = getMasteryRank(maxSkillLevel);
                 const spells = SPELLS[school as keyof typeof SPELLS];
 
