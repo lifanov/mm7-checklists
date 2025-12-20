@@ -1,4 +1,3 @@
-
 export type SkillLevel = '-' | 'B' | 'E' | 'M' | 'GM';
 
 export interface SkillLimits {
@@ -29,53 +28,6 @@ export interface ClassDefinition {
   };
 }
 
-// Helper to create limits
-// Standard progression: E -> M -> GM (depending on max)
-// But caps apply:
-// If max is GM: Base=E, First=M, Second=GM
-// If max is M: Base=E, First=M, Second=M
-// If max is E: Base=E, First=E, Second=E
-// If max is B: Base=B, First=B, Second=B
-// If max is -: All -
-const createLimits = (maxLight: SkillLevel, maxDark: SkillLevel, baseOverride?: SkillLevel, firstOverride?: SkillLevel): SkillLimits => {
-  const resolve = (targetMax: SkillLevel, promotionTier: 0 | 1 | 2): SkillLevel => {
-    if (targetMax === '-') return '-';
-    if (targetMax === 'B') return 'B';
-
-    // For Expert cap, you can usually reach it at Base
-    if (targetMax === 'E') return 'E';
-
-    // For Master cap:
-    // Base: E, First: M, Second: M
-    if (targetMax === 'M') {
-      if (promotionTier === 0) return 'E';
-      return 'M';
-    }
-
-    // For GM cap:
-    // Base: E, First: M, Second: GM
-    if (targetMax === 'GM') {
-      if (promotionTier === 0) return 'E';
-      if (promotionTier === 1) return 'M';
-      return 'GM';
-    }
-
-    return '-';
-  };
-
-  const limits: SkillLimits = {
-    base: baseOverride || resolve(maxLight === 'GM' || maxDark === 'GM' ? 'GM' : (maxLight === 'M' || maxDark === 'M' ? 'M' : (maxLight === 'E' || maxDark === 'E' ? 'E' : (maxLight === 'B' || maxDark === 'B' ? 'B' : '-'))), 0),
-    first: firstOverride || resolve(maxLight === 'GM' || maxDark === 'GM' ? 'GM' : (maxLight === 'M' || maxDark === 'M' ? 'M' : (maxLight === 'E' || maxDark === 'E' ? 'E' : (maxLight === 'B' || maxDark === 'B' ? 'B' : '-'))), 1),
-    light: maxLight,
-    dark: maxDark
-  };
-
-  return limits;
-};
-
-// Special helper for Monk Magic: Base -, First B, Light E, Dark B
-const monkMagic: SkillLimits = { base: '-', first: 'B', light: 'E', dark: 'B' };
-
 export const CLASSES: Record<string, ClassDefinition> = {
   archer: {
     id: 'archer',
@@ -87,46 +39,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('E', 'E'),
-        Bow: createLimits('GM', 'GM'),
-        Dagger: createLimits('E', 'E'),
-        Spear: createLimits('M', 'M'),
-        Staff: createLimits('B', 'B'),
-        Sword: createLimits('E', 'E'),
-        Mace: createLimits('-', '-'),
-        Blaster: createLimits('GM', 'GM') // Everyone gets Blaster GM typically
+        'Axe': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Dagger': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Mace': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spear': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Staff': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Sword': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Unarmed': { base: 'B', first: 'B', light: 'B', dark: 'B' }
       },
       armor: {
-        Leather: createLimits('M', 'M'),
-        Chain: createLimits('GM', 'GM'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('-', '-')
+        'Chain': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Dodging': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Leather': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: '-', first: '-', light: '-', dark: '-' }
       },
       magic: {
-        Fire: createLimits('M', 'M', 'E', 'E'),
-        Air: createLimits('M', 'M', 'E', 'E'),
-        Water: createLimits('M', 'M', 'E', 'E'),
-        Earth: createLimits('M', 'M', 'E', 'E'),
-        Spirit: createLimits('-', '-'),
-        Mind: createLimits('-', '-'),
-        Body: createLimits('-', '-'),
-        Light: createLimits('B', '-', '-', '-'), // Delayed to Tier 3 (Master Archer)
-        Dark: createLimits('-', 'B', '-', '-')  // Delayed to Tier 3 (Sniper)
+        'Air': { base: 'B', first: 'E', light: 'M', dark: 'M' },
+        'Body': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dark': { base: '-', first: '-', light: '-', dark: 'B' },
+        'Earth': { base: 'B', first: 'E', light: 'M', dark: 'M' },
+        'Fire': { base: 'B', first: 'E', light: 'M', dark: 'M' },
+        'Light': { base: '-', first: '-', light: 'B', dark: '-' },
+        'Mind': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spirit': { base: '-', first: '-', light: '-', dark: '-' },
+        'Water': { base: 'B', first: 'E', light: 'M', dark: 'M' }
       },
       misc: {
-        'Armsmaster': createLimits('E', 'E'),
-        'Body Building': createLimits('E', 'E'),
-        'Disarm Trap': createLimits('E', 'E'),
-        'Identify Item': createLimits('-', '-'),
-        'Identify Monster': createLimits('-', 'GM'), // Dark gets GM
-        'Learning': createLimits('M', 'M'),
-        'Meditation': createLimits('-', 'E'), // Dark gets Expert
-        'Merchant': createLimits('E', 'E'),
-        'Perception': createLimits('GM', 'GM'),
-        'Repair Item': createLimits('E', 'E'),
-        'Stealing': createLimits('-', '-'),
-        'Alchemy': createLimits('-', '-'),
-        'Dodging': createLimits('E', 'E')
+        'Alchemy': { base: '-', first: '-', light: '-', dark: '-' },
+        'Armsmaster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Body Building': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Disarm Trap': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Identify Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Monster': { base: '-', first: '-', light: '-', dark: '-' },
+        'Learning': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Meditation': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Merchant': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Perception': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Repair Item': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Stealing': { base: '-', first: '-', light: '-', dark: '-' }
       }
     }
   },
@@ -140,46 +93,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('-', '-'),
-        Bow: createLimits('E', 'E'),
-        Dagger: createLimits('-', '-'),
-        Spear: createLimits('-', '-'),
-        Staff: createLimits('B', 'B'),
-        Sword: createLimits('-', '-'),
-        Mace: createLimits('M', 'M'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: '-', first: '-', light: '-', dark: '-' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dagger': { base: '-', first: '-', light: '-', dark: '-' },
+        'Mace': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Spear': { base: '-', first: '-', light: '-', dark: '-' },
+        'Staff': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Sword': { base: '-', first: '-', light: '-', dark: '-' },
+        'Unarmed': { base: '-', first: '-', light: '-', dark: '-' }
       },
       armor: {
-        Leather: createLimits('E', 'E'),
-        Chain: createLimits('E', 'E'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('M', 'M')
+        'Chain': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dodging': { base: '-', first: '-', light: '-', dark: '-' },
+        'Leather': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: 'M', first: 'M', light: 'M', dark: 'M' }
       },
       magic: {
-        Fire: createLimits('-', '-'),
-        Air: createLimits('-', '-'),
-        Water: createLimits('-', '-'),
-        Earth: createLimits('-', '-'),
-        Spirit: createLimits('GM', 'GM'),
-        Mind: createLimits('GM', 'GM'),
-        Body: createLimits('GM', 'GM'),
-        Light: createLimits('GM', '-'),
-        Dark: createLimits('-', 'GM')
+        'Air': { base: '-', first: '-', light: '-', dark: '-' },
+        'Body': { base: 'E', first: 'M', light: 'GM', dark: 'GM' },
+        'Dark': { base: '-', first: '-', light: '-', dark: 'GM' },
+        'Earth': { base: '-', first: '-', light: '-', dark: '-' },
+        'Fire': { base: '-', first: '-', light: '-', dark: '-' },
+        'Light': { base: '-', first: '-', light: 'GM', dark: '-' },
+        'Mind': { base: 'E', first: 'M', light: 'GM', dark: 'GM' },
+        'Spirit': { base: 'E', first: 'M', light: 'GM', dark: 'GM' },
+        'Water': { base: '-', first: '-', light: '-', dark: '-' }
       },
       misc: {
-        'Alchemy': createLimits('E', 'E'),
-        'Learning': createLimits('M', 'M'),
-        'Meditation': createLimits('M', 'M'),
-        'Merchant': createLimits('M', 'GM'), // Base E, First M, Light M, Dark GM
-        'Perception': createLimits('E', 'E'),
-        'Repair Item': createLimits('M', 'M'),
-        'Body Building': createLimits('B', 'B'),
-        'Armsmaster': createLimits('-', '-'),
-        'Dodging': createLimits('-', '-'),
-        'Identify Item': createLimits('-', '-'),
-        'Identify Monster': createLimits('E', 'E'),
-        'Disarm Trap': createLimits('-', '-'),
-        'Stealing': createLimits('-', '-')
+        'Alchemy': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Armsmaster': { base: '-', first: '-', light: '-', dark: '-' },
+        'Body Building': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Disarm Trap': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Monster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Learning': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Meditation': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Merchant': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Perception': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Repair Item': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Stealing': { base: '-', first: '-', light: '-', dark: '-' }
       }
     }
   },
@@ -193,46 +147,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('-', '-'),
-        Bow: createLimits('E', 'E'),
-        Dagger: createLimits('M', 'M'),
-        Spear: createLimits('-', '-'),
-        Staff: createLimits('B', 'B'),
-        Sword: createLimits('-', '-'),
-        Mace: createLimits('E', 'E'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: '-', first: '-', light: '-', dark: '-' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dagger': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Mace': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Spear': { base: '-', first: '-', light: '-', dark: '-' },
+        'Staff': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Sword': { base: '-', first: '-', light: '-', dark: '-' },
+        'Unarmed': { base: '-', first: '-', light: '-', dark: '-' }
       },
       armor: {
-        Leather: createLimits('E', 'E'),
-        Chain: createLimits('-', '-'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('E', 'E')
+        'Chain': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dodging': { base: '-', first: '-', light: '-', dark: '-' },
+        'Leather': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: 'E', first: 'E', light: 'E', dark: 'E' }
       },
       magic: {
-        Fire: createLimits('M', 'M'),
-        Air: createLimits('M', 'M'),
-        Water: createLimits('M', 'M'),
-        Earth: createLimits('M', 'M'),
-        Spirit: createLimits('M', 'M'),
-        Mind: createLimits('M', 'M'),
-        Body: createLimits('M', 'M'),
-        Light: createLimits('-', '-'),
-        Dark: createLimits('-', '-')
+        'Air': { base: 'E', first: 'M', light: 'M', dark: 'M' },
+        'Body': { base: 'E', first: 'M', light: 'M', dark: 'M' },
+        'Dark': { base: '-', first: '-', light: '-', dark: '-' },
+        'Earth': { base: 'E', first: 'M', light: 'M', dark: 'M' },
+        'Fire': { base: 'E', first: 'M', light: 'M', dark: 'M' },
+        'Light': { base: '-', first: '-', light: '-', dark: '-' },
+        'Mind': { base: 'E', first: 'M', light: 'M', dark: 'M' },
+        'Spirit': { base: 'E', first: 'M', light: 'M', dark: 'M' },
+        'Water': { base: 'E', first: 'M', light: 'M', dark: 'M' }
       },
       misc: {
-        'Alchemy': createLimits('GM', 'GM'),
-        'Learning': createLimits('M', 'M'),
-        'Meditation': createLimits('GM', 'GM'),
-        'Merchant': createLimits('E', 'E'),
-        'Perception': createLimits('E', 'E'),
-        'Identify Item': createLimits('E', 'E'),
-        'Identify Monster': createLimits('E', 'E'),
-        'Armsmaster': createLimits('B', 'B'),
-        'Repair Item': createLimits('-', '-'),
-        'Body Building': createLimits('-', '-'),
-        'Disarm Trap': createLimits('-', '-'),
-        'Stealing': createLimits('-', '-'),
-        'Dodging': createLimits('-', '-')
+        'Alchemy': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Armsmaster': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Body Building': { base: '-', first: '-', light: '-', dark: '-' },
+        'Disarm Trap': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Item': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Identify Monster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Learning': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Meditation': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Merchant': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Perception': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Repair Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Stealing': { base: '-', first: '-', light: '-', dark: '-' }
       }
     }
   },
@@ -246,46 +201,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('M', 'M'),
-        Bow: createLimits('E', 'E'),
-        Dagger: createLimits('E', 'E'),
-        Spear: createLimits('GM', 'GM'),
-        Staff: createLimits('E', 'E'),
-        Sword: createLimits('GM', 'GM'),
-        Mace: createLimits('M', 'M'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dagger': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Mace': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Spear': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Staff': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Sword': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Unarmed': { base: 'E', first: 'E', light: 'E', dark: 'E' }
       },
       armor: {
-        Leather: createLimits('M', 'M'),
-        Chain: createLimits('M', 'M'),
-        Plate: createLimits('GM', 'GM'),
-        Shield: createLimits('GM', 'GM')
+        'Chain': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Dodging': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Leather': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Plate': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Shield': { base: 'M', first: 'M', light: 'GM', dark: 'GM' }
       },
       magic: {
-        Fire: createLimits('-', '-'),
-        Air: createLimits('-', '-'),
-        Water: createLimits('-', '-'),
-        Earth: createLimits('-', '-'),
-        Spirit: createLimits('-', '-'),
-        Mind: createLimits('-', '-'),
-        Body: createLimits('-', '-'),
-        Light: createLimits('-', '-'),
-        Dark: createLimits('-', '-')
+        'Air': { base: '-', first: '-', light: '-', dark: '-' },
+        'Body': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dark': { base: '-', first: '-', light: '-', dark: '-' },
+        'Earth': { base: '-', first: '-', light: '-', dark: '-' },
+        'Fire': { base: '-', first: '-', light: '-', dark: '-' },
+        'Light': { base: '-', first: '-', light: '-', dark: '-' },
+        'Mind': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spirit': { base: '-', first: '-', light: '-', dark: '-' },
+        'Water': { base: '-', first: '-', light: '-', dark: '-' }
       },
       misc: {
-        'Armsmaster': createLimits('GM', 'GM'),
-        'Body Building': createLimits('GM', 'GM'),
-        'Repair Item': createLimits('GM', 'GM'),
-        'Disarm Trap': createLimits('B', 'B'),
-        'Perception': createLimits('E', 'E'),
-        'Learning': createLimits('B', 'B'),
-        'Merchant': createLimits('E', 'E'),
-        'Alchemy': createLimits('-', '-'),
-        'Dodging': createLimits('E', 'E'),
-        'Identify Item': createLimits('-', '-'),
-        'Identify Monster': createLimits('-', '-'),
-        'Stealing': createLimits('-', '-'),
-        'Meditation': createLimits('-', '-')
+        'Alchemy': { base: '-', first: '-', light: '-', dark: '-' },
+        'Armsmaster': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Body Building': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Disarm Trap': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Identify Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Monster': { base: '-', first: '-', light: '-', dark: '-' },
+        'Learning': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Meditation': { base: '-', first: '-', light: '-', dark: '-' },
+        'Merchant': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Perception': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Repair Item': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Stealing': { base: '-', first: '-', light: '-', dark: '-' }
       }
     }
   },
@@ -299,47 +255,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('-', '-'),
-        Bow: createLimits('B', 'B'),
-        Dagger: createLimits('E', 'E'),
-        Spear: createLimits('E', 'E'),
-        Staff: createLimits('GM', 'M'), // Light GM, Dark Master
-        Sword: createLimits('E', 'E'),
-        Mace: createLimits('-', '-'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: '-', first: '-', light: '-', dark: '-' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Dagger': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Mace': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spear': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Staff': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Sword': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Unarmed': { base: 'M', first: 'M', light: 'GM', dark: 'GM' }
       },
       armor: {
-        Leather: createLimits('M', 'M'),
-        Chain: createLimits('-', '-'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('-', '-')
+        'Chain': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dodging': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Leather': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: '-', first: '-', light: '-', dark: '-' }
       },
       magic: {
-        Spirit: monkMagic,
-        Mind: monkMagic,
-        Body: monkMagic,
-        Fire: createLimits('-', '-'),
-        Air: createLimits('-', '-'),
-        Water: createLimits('-', '-'),
-        Earth: createLimits('-', '-'),
-        Light: createLimits('-', '-'),
-        Dark: createLimits('-', '-')
+        'Air': { base: '-', first: '-', light: '-', dark: '-' },
+        'Body': { base: '-', first: 'B', light: 'M', dark: 'M' },
+        'Dark': { base: '-', first: '-', light: '-', dark: '-' },
+        'Earth': { base: '-', first: '-', light: '-', dark: '-' },
+        'Fire': { base: '-', first: '-', light: '-', dark: '-' },
+        'Light': { base: '-', first: '-', light: '-', dark: '-' },
+        'Mind': { base: '-', first: 'B', light: 'M', dark: 'M' },
+        'Spirit': { base: '-', first: 'B', light: 'M', dark: 'M' },
+        'Water': { base: '-', first: '-', light: '-', dark: '-' }
       },
       misc: {
-        'Unarmed': createLimits('GM', 'M'), // Light GM, Dark Master
-        'Dodging': createLimits('GM', 'M'), // Light GM, Dark Master
-        'Armsmaster': createLimits('M', 'M'),
-        'Body Building': createLimits('GM', 'GM'),
-        'Learning': createLimits('GM', 'GM'),
-        'Perception': createLimits('E', 'E'),
-        'Disarm Trap': createLimits('E', 'M', 'B', 'E'), // Base B, First E, Light E, Dark M
-        'Stealing': createLimits('B', 'E', 'B', 'B'), // Base B, First B, Light B, Dark E
-        'Identify Monster': createLimits('E', 'E'),
-        'Identify Item': createLimits('-', '-'),
-        'Repair Item': createLimits('-', '-'),
-        'Merchant': createLimits('-', '-'),
-        'Alchemy': createLimits('-', '-'),
-        'Meditation': createLimits('-', '-')
+        'Alchemy': { base: '-', first: '-', light: '-', dark: '-' },
+        'Armsmaster': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Body Building': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Disarm Trap': { base: 'B', first: 'E', light: 'E', dark: 'M' },
+        'Identify Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Monster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Learning': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Meditation': { base: '-', first: '-', light: '-', dark: '-' },
+        'Merchant': { base: '-', first: '-', light: '-', dark: '-' },
+        'Perception': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Repair Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Stealing': { base: 'B', first: 'B', light: 'B', dark: 'E' }
       }
     }
   },
@@ -353,46 +309,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('E', 'E'),
-        Bow: createLimits('E', 'E'),
-        Dagger: createLimits('E', 'E'),
-        Spear: createLimits('E', 'E'),
-        Staff: createLimits('B', 'B'),
-        Sword: createLimits('M', 'M'),
-        Mace: createLimits('GM', 'GM'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dagger': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Mace': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Spear': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Staff': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Sword': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Unarmed': { base: 'B', first: 'B', light: 'B', dark: 'B' }
       },
       armor: {
-        Leather: createLimits('E', 'E'),
-        Chain: createLimits('E', 'E'),
-        Plate: createLimits('M', 'M'),
-        Shield: createLimits('GM', 'GM')
+        'Chain': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dodging': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Leather': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Plate': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Shield': { base: 'M', first: 'M', light: 'GM', dark: 'GM' }
       },
       magic: {
-        Spirit: createLimits('M', 'M', 'E', 'E'), // Base E, First E, Light/Dark M
-        Mind: createLimits('M', 'M', 'E', 'E'),
-        Body: createLimits('M', 'M', 'E', 'E'),
-        Light: createLimits('B', '-', '-', '-'), // Delayed to Tier 3 (Hero)
-        Dark: createLimits('-', 'B', '-', '-'), // Delayed to Tier 3 (Villain)
-        Fire: createLimits('-', '-'),
-        Air: createLimits('-', '-'),
-        Water: createLimits('-', '-'),
-        Earth: createLimits('-', '-')
+        'Air': { base: '-', first: '-', light: '-', dark: '-' },
+        'Body': { base: 'B', first: 'E', light: 'M', dark: 'M' },
+        'Dark': { base: '-', first: '-', light: '-', dark: 'B' },
+        'Earth': { base: '-', first: '-', light: '-', dark: '-' },
+        'Fire': { base: '-', first: '-', light: '-', dark: '-' },
+        'Light': { base: '-', first: '-', light: 'B', dark: '-' },
+        'Mind': { base: 'B', first: 'E', light: 'M', dark: 'M' },
+        'Spirit': { base: 'B', first: 'E', light: 'M', dark: 'M' },
+        'Water': { base: '-', first: '-', light: '-', dark: '-' }
       },
       misc: {
-        'Armsmaster': createLimits('E', 'E'),
-        'Body Building': createLimits('M', 'M'),
-        'Repair Item': createLimits('GM', 'GM'),
-        'Merchant': createLimits('E', 'E'),
-        'Learning': createLimits('E', 'E'),
-        'Perception': createLimits('B', 'B'),
-        'Meditation': createLimits('E', 'E'),
-        'Dodging': createLimits('B', 'B'),
-        'Disarm Trap': createLimits('-', '-'),
-        'Identify Item': createLimits('-', '-'),
-        'Identify Monster': createLimits('-', '-'),
-        'Stealing': createLimits('-', '-'),
-        'Alchemy': createLimits('-', '-')
+        'Alchemy': { base: '-', first: '-', light: '-', dark: '-' },
+        'Armsmaster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Body Building': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Disarm Trap': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Item': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Monster': { base: '-', first: '-', light: '-', dark: '-' },
+        'Learning': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Meditation': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Merchant': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Perception': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Repair Item': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Stealing': { base: '-', first: '-', light: '-', dark: '-' }
       }
     }
   },
@@ -406,47 +363,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('GM', 'GM'),
-        Bow: createLimits('M', 'M'),
-        Dagger: createLimits('E', 'E'),
-        Spear: createLimits('E', 'E'),
-        Staff: createLimits('B', 'B'),
-        Sword: createLimits('E', 'E'),
-        Mace: createLimits('-', '-'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Dagger': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Mace': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spear': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Staff': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Sword': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Unarmed': { base: 'B', first: 'B', light: 'B', dark: 'B' }
       },
       armor: {
-        Leather: createLimits('M', 'M'),
-        Chain: createLimits('M', 'M'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('E', 'E')
+        'Chain': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Dodging': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Leather': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: 'E', first: 'E', light: 'E', dark: 'E' }
       },
       magic: {
-        // Base B, First B, Light E, Dark E
-        Fire: createLimits('E', 'E', 'B', 'B'),
-        Air: createLimits('E', 'E', 'B', 'B'),
-        Water: createLimits('E', 'E', 'B', 'B'),
-        Earth: createLimits('E', 'E', 'B', 'B'),
-        Spirit: createLimits('E', 'E', 'B', 'B'),
-        Mind: createLimits('E', 'E', 'B', 'B'),
-        Body: createLimits('E', 'E', 'B', 'B'),
-        Light: createLimits('-', '-'),
-        Dark: createLimits('-', '-')
+        'Air': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Body': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Dark': { base: '-', first: '-', light: '-', dark: '-' },
+        'Earth': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Fire': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Light': { base: '-', first: '-', light: '-', dark: '-' },
+        'Mind': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Spirit': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Water': { base: '-', first: 'B', light: 'E', dark: 'E' }
       },
       misc: {
-        'Identify Monster': createLimits('GM', 'GM'),
-        'Perception': createLimits('M', 'M'),
-        'Stealing': createLimits('E', 'E'),
-        'Armsmaster': createLimits('E', 'E'),
-        'Dodging': createLimits('E', 'E'),
-        'Disarm Trap': createLimits('E', 'E'),
-        'Learning': createLimits('E', 'E'),
-        'Meditation': createLimits('B', 'B'),
-        'Merchant': createLimits('B', 'B'),
-        'Alchemy': createLimits('B', 'B'),
-        'Body Building': createLimits('E', 'E'),
-        'Repair Item': createLimits('B', 'B'),
-        'Identify Item': createLimits('B', 'B')
+        'Alchemy': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Armsmaster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Body Building': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Disarm Trap': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Identify Item': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Identify Monster': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Learning': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Meditation': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Merchant': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Perception': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Repair Item': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Stealing': { base: 'E', first: 'E', light: 'E', dark: 'E' }
       }
     }
   },
@@ -455,51 +412,52 @@ export const CLASSES: Record<string, ClassDefinition> = {
     name: 'Sorcerer',
     promotions: {
       neutral: 'Wizard',
-      light: 'Arch Mage',
+      light: 'Archmage',
       dark: 'Lich'
     },
     skills: {
       weapons: {
-        Axe: createLimits('-', '-'),
-        Bow: createLimits('B', 'B'),
-        Dagger: createLimits('E', 'E'),
-        Spear: createLimits('-', '-'),
-        Staff: createLimits('M', 'M'),
-        Sword: createLimits('-', '-'),
-        Mace: createLimits('-', '-'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: '-', first: '-', light: '-', dark: '-' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Dagger': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Mace': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spear': { base: '-', first: '-', light: '-', dark: '-' },
+        'Staff': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Sword': { base: '-', first: '-', light: '-', dark: '-' },
+        'Unarmed': { base: '-', first: '-', light: '-', dark: '-' }
       },
       armor: {
-        Leather: createLimits('E', 'E'),
-        Chain: createLimits('-', '-'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('-', '-')
+        'Chain': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dodging': { base: '-', first: '-', light: '-', dark: '-' },
+        'Leather': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: '-', first: '-', light: '-', dark: '-' }
       },
       magic: {
-        Fire: createLimits('GM', 'GM'),
-        Air: createLimits('GM', 'GM'),
-        Water: createLimits('GM', 'GM'),
-        Earth: createLimits('GM', 'GM'),
-        Light: createLimits('GM', '-'),
-        Dark: createLimits('-', 'GM'),
-        Spirit: createLimits('-', '-'),
-        Mind: createLimits('-', '-'),
-        Body: createLimits('-', '-')
+        'Air': { base: 'E', first: 'M', light: 'GM', dark: 'GM' },
+        'Body': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dark': { base: '-', first: '-', light: '-', dark: 'GM' },
+        'Earth': { base: 'E', first: 'M', light: 'GM', dark: 'GM' },
+        'Fire': { base: 'E', first: 'M', light: 'GM', dark: 'GM' },
+        'Light': { base: '-', first: '-', light: 'GM', dark: '-' },
+        'Mind': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spirit': { base: '-', first: '-', light: '-', dark: '-' },
+        'Water': { base: 'E', first: 'M', light: 'GM', dark: 'GM' }
       },
       misc: {
-        'Alchemy': createLimits('M', 'M'),
-        'Identify Item': createLimits('GM', 'GM'),
-        'Identify Monster': createLimits('GM', 'GM'),
-        'Learning': createLimits('M', 'M'),
-        'Meditation': createLimits('M', 'M'),
-        'Merchant': createLimits('B', 'B'),
-        'Perception': createLimits('E', 'E'),
-        'Repair Item': createLimits('E', 'E'),
-        'Body Building': createLimits('-', '-'),
-        'Armsmaster': createLimits('-', '-'),
-        'Disarm Trap': createLimits('-', '-'),
-        'Dodging': createLimits('-', '-'),
-        'Stealing': createLimits('-', '-')
+        'Alchemy': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Armsmaster': { base: '-', first: '-', light: '-', dark: '-' },
+        'Body Building': { base: '-', first: '-', light: '-', dark: '-' },
+        'Disarm Trap': { base: '-', first: '-', light: '-', dark: '-' },
+        'Identify Item': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Identify Monster': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Learning': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Meditation': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Merchant': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Perception': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Repair Item': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Stealing': { base: '-', first: '-', light: '-', dark: '-' }
       }
     }
   },
@@ -513,46 +471,47 @@ export const CLASSES: Record<string, ClassDefinition> = {
     },
     skills: {
       weapons: {
-        Axe: createLimits('-', '-'),
-        Bow: createLimits('E', 'E'),
-        Dagger: createLimits('GM', 'GM'),
-        Spear: createLimits('-', '-'),
-        Staff: createLimits('-', '-'),
-        Sword: createLimits('M', 'M'),
-        Mace: createLimits('E', 'E'),
-        Blaster: createLimits('GM', 'GM')
+        'Axe': { base: '-', first: '-', light: '-', dark: '-' },
+        'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
+        'Bow': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dagger': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Mace': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Spear': { base: '-', first: '-', light: '-', dark: '-' },
+        'Staff': { base: '-', first: '-', light: '-', dark: '-' },
+        'Sword': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Unarmed': { base: 'E', first: 'E', light: 'E', dark: 'E' }
       },
       armor: {
-        Leather: createLimits('GM', 'GM'),
-        Chain: createLimits('E', 'E'),
-        Plate: createLimits('-', '-'),
-        Shield: createLimits('B', 'B')
+        'Chain': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Dodging': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Leather': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Plate': { base: '-', first: '-', light: '-', dark: '-' },
+        'Shield': { base: 'E', first: 'B', light: 'B', dark: 'B' }
       },
       magic: {
-        // Delayed: Tier 1 -, Tier 2 Basic
-        Fire: createLimits('B', 'B', '-', 'B'),
-        Air: createLimits('B', 'B', '-', 'B'),
-        Water: createLimits('B', 'B', '-', 'B'),
-        Earth: createLimits('B', 'B', '-', 'B'),
-        Spirit: createLimits('-', '-'),
-        Mind: createLimits('-', '-'),
-        Body: createLimits('-', '-'),
-        Light: createLimits('-', '-'),
-        Dark: createLimits('-', '-')
+        'Air': { base: '-', first: 'B', light: 'B', dark: 'B' },
+        'Body': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dark': { base: '-', first: '-', light: '-', dark: '-' },
+        'Earth': { base: '-', first: 'B', light: 'B', dark: 'B' },
+        'Fire': { base: '-', first: 'B', light: 'B', dark: 'B' },
+        'Light': { base: '-', first: '-', light: '-', dark: '-' },
+        'Mind': { base: '-', first: '-', light: '-', dark: '-' },
+        'Spirit': { base: '-', first: '-', light: '-', dark: '-' },
+        'Water': { base: '-', first: 'B', light: 'B', dark: 'B' }
       },
       misc: {
-        'Disarm Trap': createLimits('GM', 'GM'),
-        'Stealing': createLimits('GM', 'GM'),
-        'Merchant': createLimits('M', 'M'),
-        'Perception': createLimits('M', 'M'),
-        'Identify Item': createLimits('M', 'M'),
-        'Alchemy': createLimits('E', 'E'),
-        'Dodging': createLimits('M', 'M'),
-        'Armsmaster': createLimits('M', 'M'),
-        'Body Building': createLimits('E', 'E'),
-        'Learning': createLimits('E', 'E'),
-        'Repair Item': createLimits('B', 'B'),
-        'Identify Monster': createLimits('-', '-')
+        'Alchemy': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Armsmaster': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Body Building': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Disarm Trap': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Identify Item': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Identify Monster': { base: '-', first: '-', light: '-', dark: '-' },
+        'Learning': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Meditation': { base: '-', first: '-', light: '-', dark: '-' },
+        'Merchant': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Perception': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Repair Item': { base: 'B', first: 'B', light: 'B', dark: 'B' },
+        'Stealing': { base: 'M', first: 'M', light: 'GM', dark: 'GM' }
       }
     }
   }
