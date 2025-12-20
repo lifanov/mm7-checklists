@@ -149,7 +149,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
       weapons: {
         'Axe': { base: '-', first: '-', light: '-', dark: '-' },
         'Blaster': { base: 'GM', first: 'GM', light: 'GM', dark: 'GM' },
-        'Bow': { base: 'E', first: 'E', light: 'E', dark: 'E' },
+        'Bow': { base: 'B', first: 'B', light: 'B', dark: 'B' },
         'Dagger': { base: 'M', first: 'M', light: 'M', dark: 'M' },
         'Mace': { base: 'E', first: 'E', light: 'E', dark: 'E' },
         'Spear': { base: '-', first: '-', light: '-', dark: '-' },
@@ -159,7 +159,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
       },
       armor: {
         'Chain': { base: '-', first: '-', light: '-', dark: '-' },
-        'Dodging': { base: '-', first: '-', light: '-', dark: '-' },
+        'Dodging': { base: 'E', first: 'E', light: 'E', dark: 'E' },
         'Leather': { base: 'E', first: 'E', light: 'E', dark: 'E' },
         'Plate': { base: '-', first: '-', light: '-', dark: '-' },
         'Shield': { base: 'E', first: 'E', light: 'E', dark: 'E' }
@@ -274,13 +274,13 @@ export const CLASSES: Record<string, ClassDefinition> = {
       },
       magic: {
         'Air': { base: '-', first: '-', light: '-', dark: '-' },
-        'Body': { base: '-', first: 'B', light: 'M', dark: 'M' },
+        'Body': { base: '-', first: 'B', light: 'E', dark: 'B' },
         'Dark': { base: '-', first: '-', light: '-', dark: '-' },
         'Earth': { base: '-', first: '-', light: '-', dark: '-' },
         'Fire': { base: '-', first: '-', light: '-', dark: '-' },
         'Light': { base: '-', first: '-', light: '-', dark: '-' },
-        'Mind': { base: '-', first: 'B', light: 'M', dark: 'M' },
-        'Spirit': { base: '-', first: 'B', light: 'M', dark: 'M' },
+        'Mind': { base: '-', first: 'B', light: 'E', dark: 'B' },
+        'Spirit': { base: '-', first: 'B', light: 'E', dark: 'B' },
         'Water': { base: '-', first: '-', light: '-', dark: '-' }
       },
       misc: {
@@ -340,7 +340,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
       misc: {
         'Alchemy': { base: '-', first: '-', light: '-', dark: '-' },
         'Armsmaster': { base: 'E', first: 'E', light: 'E', dark: 'E' },
-        'Body Building': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Body Building': { base: 'M', first: 'M', light: 'M', dark: 'M' },
         'Disarm Trap': { base: '-', first: '-', light: '-', dark: '-' },
         'Identify Item': { base: '-', first: '-', light: '-', dark: '-' },
         'Identify Monster': { base: '-', first: '-', light: '-', dark: '-' },
@@ -381,15 +381,15 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Shield': { base: 'E', first: 'E', light: 'E', dark: 'E' }
       },
       magic: {
-        'Air': { base: '-', first: 'B', light: 'E', dark: 'E' },
-        'Body': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Air': { base: 'B', first: 'B', light: 'E', dark: 'E' },
+        'Body': { base: 'B', first: 'B', light: 'E', dark: 'E' },
         'Dark': { base: '-', first: '-', light: '-', dark: '-' },
-        'Earth': { base: '-', first: 'B', light: 'E', dark: 'E' },
-        'Fire': { base: '-', first: 'B', light: 'E', dark: 'E' },
+        'Earth': { base: 'B', first: 'B', light: 'E', dark: 'E' },
+        'Fire': { base: 'B', first: 'B', light: 'E', dark: 'E' },
         'Light': { base: '-', first: '-', light: '-', dark: '-' },
-        'Mind': { base: '-', first: 'B', light: 'E', dark: 'E' },
-        'Spirit': { base: '-', first: 'B', light: 'E', dark: 'E' },
-        'Water': { base: '-', first: 'B', light: 'E', dark: 'E' }
+        'Mind': { base: 'B', first: 'B', light: 'E', dark: 'E' },
+        'Spirit': { base: 'B', first: 'B', light: 'E', dark: 'E' },
+        'Water': { base: 'B', first: 'B', light: 'E', dark: 'E' }
       },
       misc: {
         'Alchemy': { base: 'B', first: 'B', light: 'B', dark: 'B' },
@@ -451,9 +451,9 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Body Building': { base: '-', first: '-', light: '-', dark: '-' },
         'Disarm Trap': { base: '-', first: '-', light: '-', dark: '-' },
         'Identify Item': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
-        'Identify Monster': { base: 'M', first: 'M', light: 'M', dark: 'M' },
+        'Identify Monster': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
         'Learning': { base: 'M', first: 'M', light: 'M', dark: 'M' },
-        'Meditation': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
+        'Meditation': { base: 'M', first: 'M', light: 'M', dark: 'M' },
         'Merchant': { base: 'B', first: 'B', light: 'B', dark: 'B' },
         'Perception': { base: 'E', first: 'E', light: 'E', dark: 'E' },
         'Repair Item': { base: 'E', first: 'E', light: 'E', dark: 'E' },
@@ -486,7 +486,7 @@ export const CLASSES: Record<string, ClassDefinition> = {
         'Dodging': { base: 'M', first: 'M', light: 'M', dark: 'M' },
         'Leather': { base: 'M', first: 'M', light: 'GM', dark: 'GM' },
         'Plate': { base: '-', first: '-', light: '-', dark: '-' },
-        'Shield': { base: 'E', first: 'B', light: 'B', dark: 'B' }
+        'Shield': { base: 'B', first: 'B', light: 'B', dark: 'B' }
       },
       magic: {
         'Air': { base: '-', first: 'B', light: 'B', dark: 'B' },
