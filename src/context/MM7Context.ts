@@ -31,6 +31,7 @@ export interface AppContextType {
   updateProfile: (updates: Partial<Profile>) => void;
   updateCharacter: (charIndex: number, updates: Partial<Character>) => void;
   toggleChecklist: (category: 'quests' | 'alchemy' | 'general', key: string) => void;
+  exportProfile: (id: string) => string;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

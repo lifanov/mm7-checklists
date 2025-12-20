@@ -13,7 +13,7 @@ import './App.css';
 // I will create separate files for the views to keep it clean.
 
 const Sidebar = () => {
-  const { profiles, activeProfileId, createProfile, setActiveProfileId, deleteProfile } = useApp();
+  const { profiles, activeProfileId, createProfile, setActiveProfileId, deleteProfile, exportProfile } = useApp();
   const [newProfileName, setNewProfileName] = useState('');
 
   const handleCreate = (e: React.FormEvent) => {
@@ -21,6 +21,18 @@ const Sidebar = () => {
     if (newProfileName.trim()) {
       createProfile(newProfileName.trim());
       setNewProfileName('');
+    }
+  };
+
+  const handleShare = (id: string) => {
+    const url = exportProfile(id);
+    if (url) {
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Shareable link copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy link: ', err);
+        alert('Failed to copy link to clipboard. You can manually copy the URL from the address bar if it updated.');
+      });
     }
   };
 
@@ -32,9 +44,18 @@ const Sidebar = () => {
           <li key={p.id}
               className={classNames('profile-item', { active: p.id === activeProfileId })}
               onClick={() => setActiveProfileId(p.id)}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>{p.name}</span>
-              <button onClick={(e) => { e.stopPropagation(); if(confirm('Delete?')) deleteProfile(p.id); }}>x</button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
+              <div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleShare(p.id); }}
+                  title="Share Profile"
+                  style={{ marginRight: '4px' }}
+                >
+                  Share
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); if(confirm('Delete?')) deleteProfile(p.id); }}>x</button>
+              </div>
             </div>
           </li>
         ))}
