@@ -2,7 +2,7 @@
 import { useState, useEffect, type ReactNode } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import LZString from 'lz-string';
-import { AppContext, type Profile, type Character } from './MM7Context';
+import { AppContext, type Profile, type Character, type Path, type PromotionType } from './MM7Context';
 
 const STORAGE_KEY = 'mm7_checklist_data';
 const IMPORT_PARAM = 'import_data';
@@ -12,12 +12,53 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return [];
 
-    // Migration logic for old data format
-    const parsed = JSON.parse(stored);
-    return parsed.map((p: Record<string, unknown> & { stage?: string; alignment?: string }) => ({
-      ...p,
-      stage: p.stage || (p.alignment === 'Neutral' ? 'Base' : p.alignment || 'Base')
-    }));
+    try {
+      const parsed = JSON.parse(stored);
+      // Migration logic for old data formats
+      // Check for legacy array or object wrapper if needed, but assuming parsed is Profile[]
+
+      return parsed.map((p: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        let path: Path = 'Neutral';
+        const party = Array.isArray(p.party) ? p.party : [];
+
+        // Check if old 'stage' exists
+        if (p.stage) {
+          if (p.stage === 'Base' || p.stage === 'First') path = 'Neutral';
+          else if (p.stage === 'Light') path = 'Light';
+          else if (p.stage === 'Dark') path = 'Dark';
+        } else if (p.path) {
+          path = p.path;
+        }
+
+        // Migrate Party
+        const migratedParty = party.map((c: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+          let promotion: PromotionType = 'base';
+          if (c.promotion) {
+            promotion = c.promotion;
+          } else if (p.stage) {
+            // Map old stage to promotion if not present
+            if (p.stage === 'Base') promotion = 'base';
+            else if (p.stage === 'First') promotion = 'first';
+            else if (p.stage === 'Light') promotion = 'light';
+            else if (p.stage === 'Dark') promotion = 'dark';
+          }
+          return { ...c, promotion };
+        });
+
+        // Clean up old fields
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { stage, ...rest } = p;
+
+        return {
+          ...rest,
+          path,
+          party: migratedParty
+        };
+      });
+    } catch (e) {
+      console.error('Failed to migrate profiles', e);
+      return [];
+    }
   });
 
   const [activeProfileId, setActiveProfileId] = useState<string | null>(() => {
@@ -40,14 +81,46 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         if (decompressed) {
           const payload = JSON.parse(decompressed);
           if (payload && payload.data && payload.data.name) {
-            const newProfile = payload.data as Profile;
-            const existing = profiles.find(p => p.name === newProfile.name);
+            const rawProfile = payload.data;
+            // Run migration on imported profile just in case it's old
+            const p = rawProfile;
+            let path: Path = 'Neutral';
+            if (p.stage) {
+              if (p.stage === 'Base' || p.stage === 'First') path = 'Neutral';
+              else if (p.stage === 'Light') path = 'Light';
+              else if (p.stage === 'Dark') path = 'Dark';
+            } else if (p.path) {
+              path = p.path;
+            }
+
+            const migratedParty = (p.party || []).map((c: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+              let promotion: PromotionType = 'base';
+              if (c.promotion) {
+                promotion = c.promotion;
+              } else if (p.stage) {
+                if (p.stage === 'Base') promotion = 'base';
+                else if (p.stage === 'First') promotion = 'first';
+                else if (p.stage === 'Light') promotion = 'light';
+                else if (p.stage === 'Dark') promotion = 'dark';
+              }
+              return { ...c, promotion };
+            });
+
+             // eslint-disable-next-line @typescript-eslint/no-unused-vars
+             const { stage, ...rest } = p;
+             const newProfile: Profile = {
+               ...rest,
+               path,
+               party: migratedParty
+             };
+
+            const existing = profiles.find(prof => prof.name === newProfile.name);
 
             if (existing) {
               if (window.confirm(`Profile '${newProfile.name}' already exists. Overwrite?`)) {
                 // Preserve the local ID to avoid navigation issues
                 newProfile.id = existing.id;
-                setProfiles(prev => prev.map(p => p.id === existing.id ? newProfile : p));
+                setProfiles(prev => prev.map(prof => prof.id === existing.id ? newProfile : prof));
               }
             } else {
               // Generate new IDs to avoid collisions
@@ -69,6 +142,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         window.history.replaceState({}, '', newUrl.toString());
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Run once on mount
 
   const activeProfile = profiles.find(p => p.id === activeProfileId) || null;
@@ -77,11 +151,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const newProfile: Profile = {
       id: uuidv4(),
       name,
-      stage: 'Base',
+      path: 'Neutral',
       party: Array(4).fill(null).map(() => ({
         id: uuidv4(),
         name: '',
         classId: 'knight',
+        promotion: 'base',
         skills: {},
         spells: {}
       })),
