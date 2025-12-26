@@ -18,8 +18,8 @@ const spellList = (names: string[]): SpellDefinition[] => {
 export const SPELLS: Record<string, SpellDefinition[]> = {
   Fire: spellList([
     'Torch Light', 'Fire Bolt', 'Fire Resistance', 'Fire Aura',
-    'Haste', 'Fireball', 'Immolation', 'Meteor Shower',
-    'Inferno', 'Fire Spike', 'Incinerate'
+    'Haste', 'Fireball', 'Fire Spike', 'Immolation',
+    'Meteor Shower', 'Inferno', 'Incinerate'
   ]),
   Air: spellList([
     'Wizard Eye', 'Feather Fall', 'Air Resistance', 'Sparks',
